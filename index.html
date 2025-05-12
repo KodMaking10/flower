@@ -1,0 +1,4458 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÇözümNet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0275e7;
+            --primary-hover: #0077ed;
+            --text-color: #1d1d1f;
+            --text-secondary: #86868b;
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --navbar-bg: rgba(245, 245, 247, 0.8);
+            --border-color: #d2d2d7;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --error-color: #ff3b30;
+            --success-color: #34c759;
+            --legal-banner-bg: #ff9800;
+        }
+        
+        .dark-mode {
+            --primary-color: #2997ff;
+            --primary-hover: #3fa0ff;
+            --text-color: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --bg-color: #1d1d1f;
+            --card-bg: #2c2c2e;
+            --navbar-bg: rgba(29, 29, 31, 0.8);
+            --border-color: #424245;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            --error-color: #ff453a;
+            --success-color: #30d158;
+            --legal-banner-bg: #ffa726;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow-x: hidden;
+            perspective: 1000px;
+            padding-top: 52px;
+        }
+        
+        .legal-banner {
+            position: fixed;
+            top: 10px;
+            right: -100%;
+            background-color: var(--legal-banner-bg);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px 0 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .legal-banner.show {
+            right: 0;
+        }
+        
+        .legal-banner-text {
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .legal-banner-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .legal-banner-close:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0071e3, #2997ff, #0071e3);
+            background-size: 200% 100%;
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.4s ease;
+            animation: progressGradient 3s linear infinite;
+        }
+        
+        @keyframes progressGradient {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--primary-hover);
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 52px;
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 0 22px;
+            border-bottom: 1px solid var(--border-color);
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .navbar.scrolled {
+            height: 50px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .nav-logo:hover {
+            transform: translateX(5px) rotateY(15deg);
+        }
+        
+        .nav-logo span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-logo:hover span {
+            transform: scale(1.1);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 12px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 400;
+            padding: 18px 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: inline-block;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+        
+        .nav-links a.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-color);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-menu-toggle:hover {
+            background-color: rgba(0, 113, 227, 0.1);
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 52px;
+                left: 0;
+                width: 100%;
+                background-color: var(--navbar-bg);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                border-bottom: 1px solid var(--border-color);
+                opacity: 0;
+                transform: translateY(-20px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                max-height: 100vh;
+                padding: 20px 0;
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+                width: 100%;
+                text-align: center;
+                transform: translateY(-10px);
+                opacity: 0;
+                transition: all 0.4s ease;
+                transition-delay: calc(0.1s * var(--i));
+            }
+            
+            .nav-links.active li {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-links a {
+                padding: 12px 0;
+                font-size: 16px;
+                display: block;
+                width: 100%;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links a:hover {
+                background-color: rgba(0, 113, 227, 0.1);
+                color: var(--primary-color);
+                transform: translateY(0) scale(1.05);
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .mobile-menu-toggle.active {
+                transform: rotate(180deg);
+                background-color: rgba(0, 113, 227, 0.1);
+            }
+            
+            .mobile-menu-toggle i {
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-menu-toggle.active i {
+                transform: rotate(180deg);
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .error-title {
+                font-size: 28px;
+            }
+            
+            .error-icon {
+                font-size: 60px;
+            }
+            
+            .feature-card, .publisher-card, .contact-item, .social-link, .footer-link {
+                transform: none !important;
+            }
+            
+            .contact-container {
+                transform: perspective(1000px) rotateX(0) !important;
+            }
+            
+            .legal-banner {
+                top: 60px;
+                right: -100%;
+                border-radius: 0;
+                width: 100%;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+            
+            .legal-banner.show {
+                right: 0;
+            }
+        }
+
+        .main-content {
+            min-height: calc(100vh - 120px);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 113, 227, 0.1) 0%, rgba(0, 113, 227, 0) 70%);
+            animation: float 15s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(50px, 50px) rotate(5deg); }
+            66% { transform: translate(-50px, 30px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            background: linear-gradient(45deg, #0071e3, #2997ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #0071e3;
+            animation: textGradient 8s ease infinite, floatText 5s ease-in-out infinite;
+            background-size: 200% 200%;
+            display: inline-block;
+        }
+        
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .hero p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.3s;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-5px) rotateX(10deg);
+            box-shadow: 0 12px 30px rgba(0, 113, 227, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(41, 151, 255, 0.1);
+            transform: translateY(-5px) rotateX(-10deg);
+            box-shadow: 0 8px 20px rgba(0, 113, 227, 0.2);
+        }
+        
+        .btn:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        .features {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230071e3' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+            z-index: -1;
+            animation: patternMove 100s linear infinite;
+        }
+        
+        @keyframes patternMove {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+        
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%) rotateX(60deg);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #0071e3, #2997ff);
+            animation: titleUnderline 3s ease infinite;
+            background-size: 200% 200%;
+            transform-origin: center bottom;
+        }
+        
+        @keyframes titleUnderline {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            perspective: 1000px;
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--border-color);
+            transform: scale(0.95) rotateY(15deg);
+            opacity: 0;
+            animation: cardAppear 0.8s ease forwards;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(0, 113, 227, 0) 50%);
+            z-index: 0;
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        @keyframes cardAppear {
+            to {
+                transform: scale(1) rotateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: inline-block;
+            transform-style: preserve-3d;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotate(15deg) scale(1.2) translateZ(20px);
+            color: var(--primary-hover);
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-title {
+            transform: translateZ(10px);
+        }
+        
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-desc {
+            transform: translateZ(5px);
+        }
+        
+        .publishers {
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .publishers::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            opacity: 0.05;
+            z-index: -1;
+            animation: pulse 8s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.05; }
+            100% { transform: scale(1.2); opacity: 0.1; }
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 500px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 24px 16px 50px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: var(--shadow);
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2);
+            transform: translateZ(10px);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus + .search-icon {
+            color: var(--primary-color);
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .publishers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            perspective: 1000px;
+        }
+        
+        .publisher-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--border-color);
+            position: relative;
+            transform: scale(0.95) rotateX(10deg);
+            opacity: 0;
+            animation: cardAppear 0.5s ease forwards;
+            transform-style: preserve-3d;
+        }
+        
+        .publisher-card:nth-child(1) { animation-delay: 0.1s; }
+        .publisher-card:nth-child(2) { animation-delay: 0.2s; }
+        .publisher-card:nth-child(3) { animation-delay: 0.3s; }
+        .publisher-card:nth-child(4) { animation-delay: 0.4s; }
+        .publisher-card:nth-child(5) { animation-delay: 0.5s; }
+        .publisher-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        .publisher-card:hover {
+            transform: translateY(-10px) scale(1.05) rotateX(0);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .publisher-link {
+            display: block;
+            padding: 24px;
+            text-align: center;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .publisher-link:hover {
+            background-color: rgba(0, 113, 227, 0.05);
+        }
+        
+        .publisher-link i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .publisher-card:hover .publisher-link i {
+            transform: rotateY(180deg) scale(1.2);
+        }
+        
+        .publisher-name {
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .publisher-card:hover .publisher-name {
+            color: var(--primary-color);
+            transform: translateZ(10px);
+        }
+        
+        .publisher-hover-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            font-size: 14px;
+            transform: translateY(100%) rotateX(90deg);
+            transform-origin: top;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            backface-visibility: hidden;
+        }
+        
+        .publisher-card:hover .publisher-hover-text {
+            transform: translateY(0) rotateX(0);
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 18px;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .about {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.05) 0%, rgba(0, 113, 227, 0) 100%);
+            z-index: -1;
+        }
+        
+        .about-content {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            transform: scale(0.98) rotateY(5deg);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+        :in-range(selector) {
+            transform: scale(1) rotateY(0);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .about-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent 0%,
+                transparent 50%,
+                rgba(0, 113, 227, 0.1) 50%,
+                rgba(0, 113, 227, 0.1) 100%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+            z-index: 0;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        .about-content:hover {
+            transform: scale(1) rotateY(0);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .about-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about-text {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .legal {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .legal-container {
+            transform: perspective(0) rotateX(0) !important;
+        }
+        
+        .legal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%230071e3' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: -1;
+            animation: patternMove 100s linear infinite;
+        }
+        
+        .legal-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transform: perspective(0) rotateX(0) !important;
+            transition: transform 0.3s ease !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .legal-container:hover {
+            transform: scale(1.02) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .legal-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--primary-color);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .legal-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #0071e3, #2997ff);
+            transition: all 0.3s ease;
+        }
+        
+        .legal-section {
+            margin-bottom: 30px;
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+        
+        .legal-section:hover {
+            transform: translateZ(10px);
+        }
+        
+        .legal-section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .legal-section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .legal-section-content {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+            padding-left: 20px;
+        }
+        
+        .contact {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .contact::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%230071e3' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: -1;
+            animation: patternMove 100s linear infinite reverse;
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transform: perspective(1000px) rotateX(10deg);
+            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #0071e3, #2997ff);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+            z-index: 1;
+        }
+        
+        .contact-container:hover {
+            transform: perspective(1000px) rotateX(0);
+        }
+        
+        .contact-container:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .contact-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .contact-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-container:hover .contact-title::after {
+            width: 100px;
+            background: linear-gradient(90deg, #0071e3, #2997ff);
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .contact-item:hover {
+            transform: translateX(10px) translateZ(10px);
+        }
+        
+        .contact-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-right: 16px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background-color: rgba(0, 113, 227, 0.1);
+            transform-style: preserve-3d;
+        }
+        
+        .contact-item:hover .contact-icon {
+            transform: scale(1.2) rotateY(180deg);
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 113, 227, 0.3);
+        }
+        
+        .contact-text {
+            color: var(--text-secondary);
+            transform-style: preserve-3d;
+        }
+        
+        .contact-text strong {
+            color: var(--text-color);
+            display: block;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover .contact-text strong {
+            color: var(--primary-color);
+            transform: translateZ(10px);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            transform-style: preserve-3d;
+        }
+        
+        .social-link {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 20px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--border-color);
+            transform-style: preserve-3d;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px) rotate(15deg) translateZ(20px);
+            box-shadow: 0 10px 20px rgba(0, 113, 227, 0.3);
+        }
+        
+        .error-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1 !important;
+        }
+
+        .error-content {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            opacity: 1 !important;
+        }
+        
+        .error-icon {
+            font-size: 80px;
+            color: var(--error-color);
+            margin-bottom: 30px;
+            animation: bounce 1s infinite alternate, float 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        
+        .error-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--error-color);
+            transform-style: preserve-3d;
+            animation: textGlow 2s ease infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 5px rgba(255, 59, 48, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(255, 59, 48, 0.8); }
+        }
+        
+        .error-message {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 30px;
+            transform-style: preserve-3d;
+        }
+        
+        .error-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .error-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-5px) rotateX(15deg);
+            box-shadow: 0 12px 25px rgba(0, 113, 227, 0.4);
+        }
+        
+        .error-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s;
+        }
+        
+        .error-btn:hover::before {
+            left: 100%;
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-15px) scale(1.1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        .offline-page {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 40px auto;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transform: scale(0.95);
+            animation: pulse 2s infinite, float 4s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        
+        .offline-icon {
+            font-size: 60px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            animation: shake 0.5s infinite alternate, spin 5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            background-color: var(--card-bg);
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 113, 227, 0.05) 0%, transparent 100%);
+            z-index: -1;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transform-style: preserve-3d;
+        }
+        
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+        
+        .footer-logo:hover {
+            color: var(--primary-color);
+            transform: scale(1.1) rotateY(15deg);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            transform-style: preserve-3d;
+        }
+        
+        .footer-link {
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            transform-style: preserve-3d;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(0, 113, 227, 0.1);
+            transform: translateY(-3px) rotateX(10deg);
+            box-shadow: 0 5px 15px rgba(0, 113, 227, 0.1);
+        }
+        
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 14px;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .footer-copyright a {
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-copyright a:hover {
+            text-decoration: underline;
+            transform: translateX(5px);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+            transform-style: preserve-3d;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.2) rotate(180deg) translateZ(20px);
+            box-shadow: 0 8px 25px rgba(0, 113, 227, 0.4);
+        }
+        
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(0);
+            transition: transform 0.5s;
+        }
+        
+        .theme-toggle:hover::before {
+            transform: scale(1);
+        }
+        
+        .skeleton-loader {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+        }
+        
+        .skeleton-hero, .skeleton-card {
+            background: linear-gradient(90deg, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 12px;
+            transform-style: preserve-3d;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        
+        .card-3d:hover {
+            transform: rotateY(10deg) rotateX(5deg) translateZ(20px);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .cube-3d {
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .cube-3d:hover {
+            transform: rotateY(20deg) rotateX(10deg);
+        }
+        
+        .flip-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+        }
+        
+        .flip-3d:hover {
+            transform: rotateY(180deg);
+        }
+        
+        .depth-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        
+        .depth-3d:hover {
+            transform: translateZ(20px);
+        }
+        
+        .tilt-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        
+        .tilt-3d:hover {
+            transform: rotateX(15deg) rotateY(15deg);
+        }
+        
+        .btn-3d {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-3d:active {
+            transform: translateY(4px) translateZ(-10px);
+        }
+        
+        .shadow-3d {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.5s ease;
+        }
+        
+        .shadow-3d:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .text-3d {
+            text-shadow: 1px 1px 0 #999, 
+                         2px 2px 0 #888, 
+                         3px 3px 0 #777;
+            transition: text-shadow 0.3s ease;
+        }
+        
+        .text-3d:hover {
+            text-shadow: 1px 1px 0 #999, 
+                         2px 2px 0 #888, 
+                         3px 3px 0 #777,
+                         4px 4px 0 #666;
+        }
+        
+        .border-3d {
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+        
+        .border-3d:hover {
+            border-color: var(--primary-color);
+            box-shadow: inset 0 0 20px rgba(0, 113, 227, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="legal-banner" id="legalBanner">
+        <span class="legal-banner-text" onclick="loadPage('legal')">Yasal Uyarılara Göz Atın</span>
+        <button class="legal-banner-close" id="legalBannerClose">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo cube-3d" onclick="loadPage('home')">
+                <span>ÇözümNet</span>
+            </div>
+            
+            <ul class="nav-links" id="navLinks">
+                <li style="--i: 0"><a href="#" data-page="home" class="active">Ana Sayfa</a></li>
+                <li style="--i: 1"><a href="#" data-page="about">Hakkımızda</a></li>
+                <li style="--i: 2"><a href="#" data-page="publishers">Yayınevleri</a></li>
+                <li style="--i: 3"><a href="#" data-page="contact">İletişim</a></li>
+            </ul>
+            
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content" id="main-content">
+    </main>
+
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-logo cube-3d" onclick="loadPage('home')">
+                <span>ÇözümNet</span>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#" class="footer-link" data-page="home">Ana Sayfa</a>
+                <a href="#" class="footer-link" data-page="about">Hakkımızda</a>
+                <a href="#" class="footer-link" data-page="publishers">Yayınevleri</a>
+                <a href="#" class="footer-link" data-page="contact">İletişim</a>
+                <a href="#" class="footer-link" id="emailLink">E-Posta</a>
+            </div>
+            
+            <p class="footer-copyright">&copy; <span id="currentYear"></span> ÇözümNet. Tüm hakları saklıdır. / <a href="#" data-page="legal">Yasal Uyarılar</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const publishers = [
+            { name: "Hız Yayınları", url: "https://hizvideo.frns.in/" },
+            { name: "Karekök Yayınları", url: "https://karekokvideocozum.com/" },
+            { name: "Sonuç Yayınları", url: "https://sonucvideo.frns.in/" },
+            { name: "3D Yayınları", url: "https://www.3dyayinlari.com/video-cozumler" },
+            { name: "Eğitim Vadisi", url: "https://www.egitimvadisi.com.tr/video-cozumler" },
+            { name: "Bilgi Sarmal", url: "https://bilgisarmalvideo.frns.in/" },
+            { name: "Apotemi Yayınları", url: "https://apotemivideo.frns.in/" },
+            { name: "Palme Yayınları", url: "https://dijital.palmeyayinevi.com/SolutionApp/SolutionAppPublic/Index" },
+            { name: "Hocalara Geldik", url: "https://dijital.hocalarageldik.com/SolutionApp/SolutionAppPublic/Index" },
+            { name: "Çap Yayınları", url: "https://capvideo.frns.in/" },
+            { name: "Aydın Yayınları", url: "https://aydindijital.com/SolutionApp/SolutionAppPublic/Index" },
+            { name: "Miray Yayınları", url: "https://www.miraydijital.com/SolutionApp/SolutionAppPublic/Index" },
+            { name: "Ankara Yayıncılık", url: "https://ankaravideo.frns.in/" },
+            { name: "Fen Bilimleri Yayınları", url: "https://www.fenbilimleriyayinlari.com/?c=13" },
+            { name: "Bilfen Yayınları", url: "https://bilfenvideo.frns.in/" },
+            { name: "Orijinal Yayınları", url: "https://orjinalvideo.frns.in/" },
+            { name: "Esen Yayınları", url: "https://esenvideo.frns.in/" },
+            { name: "Paraf Yayınları", url: "https://parafyayinlari.com/video-cozumler" },
+            { name: "Nitelik Yayınları", url: "https://dijital.nitelikyayinlari.com/SolutionApp/SolutionAppPublic/Index" },
+            { name: "Sınav Yayınları", url: "https://sinavvideo.frns.in/" },
+            { name: "Yanıt Yayınları", url: "https://yanitvideo.frns.in/" },
+            { name: "Puan Yayınları", url: "https://puanvideo.frns.in/" },
+            { name: "FDD Yayınları", url: "https://fddformul.com/" },
+            { name: "Delta Kültür Yayınları", url: "https://dijital.deltakitap.com/SolutionApp/SolutionsByCategory/Index" },
+            { name: "Tammat Yayıncılık", url: "https://www.tammatcozum.com/" },
+            { name: "Yayın Denizi", url: "https://yayindenizivideo.frns.in/" },
+            { name: "Çanta Yayınları", url: "https://www.cantadavideo.com/" },
+            { name: "Mozaik Yayınları", url: "https://mozaikvideo.frns.in/" },
+            { name: "Limit Yayınları", url: "https://limitvideo.frns.in/" },
+            { name: "Kronometre Yayınları", url: "https://kronometrevideo.frns.in/" },
+            { name: "Model Yayınları", url: "https://modelvideo.frns.in/" },
+            { name: "Arı Yayınları", url: "https://arivideo.frns.in/" },
+            { name: "Günay Yayınları", url: "https://gunayvideo.frns.in/" },
+            { name: "Supara Yayınları", url: "https://suparayayinlari.com/SolutionApp/SolutionAppPublic" },
+            { name: "Vaf Yayınları", url: "https://vafvideo.frns.in/" },
+            { name: "Zafer Yayınları", url: "https://dijital.zaferyayinlari.com.tr/Portal/SolutionApp/SolutionsByCategory/Index" },
+            { name: "Kida Yayınları", url: "https://videocozum.kidadijital.com/" },
+            { name: "Kampüs Yayınları", url: "https://www.kampusdijital.com/Cozumler/KitapListView?layout=True&turId=0&seviyeId=0&dersId=0&seriId=0" },
+            { name: "İsem Yayıncılık", url: "https://www.isemdijital.com/Cozumler/KitapListView?layout=True&turId=0&seviyeId=0&dersId=0&seriId=0" },
+            { name: "Nego Yayınları", url: "https://dijital.nego.com.tr/SolutionApp/SolutionAppPublic/Index" },
+            { name: "Editör Yayınları", url: "https://www.youtube.com/channel/UCddc6yhCe69JSJiMD3gqkfQ/videos" },
+            { name: "YDS Yayınları", url: "https://www.youtube.com/@ydspublishing/playlists" },
+            { name: "Metin Yayınları", url: "https://cozmetinvideo.frns.in/" },
+            { name: "Gür Yayınları", url: "https://gurogretenvideo.frns.in/" },
+            { name: "Birey Yayınları", url: "https://bireyvideo.com/" },
+            { name: "Seviye Yayınları", url: "https://seviyevideo.frns.in/" },
+            { name: "Ertan Sinan Şahin", url: "https://ertansinansahin.com/cozum/?srsltid=AfmBOorcF-XTdc3HZUWC1rvWmHnJUQLnHs3kkjvvblhVZvxitQHpaxo3" },
+            { name: "Özdebir Yayınları", url: "https://www.ozdebirdijital.com/Cozumler/KitapListView?layout=True&turId=0&seviyeId=0&dersId=0&seriId=0" },
+            { name: "Berkay Yayıncılık", url: "https://berkayvideo.frns.in/" },
+            { name: "Newton Yayınları", url: "https://newtonvideo.frns.in/" },  
+            { name: "Bilimyolu Yayınları", url: "https://dijital.bilimyolu.com.tr/Cozumler/KitapSeriKitapListView?seriId=14" },
+            { name: "Testfen Yayınları", url: "https://www.testfendijital.com/Cozumler/KitapListView?layout=True&turId=0&seviyeId=0&dersId=0&seriId=0" },
+            { name: "Efsane Yayınları", url: "https://efsaneyayinlari.com/videolar" },
+            { name: "Çözüm Yayınları", url: "https://cozumyayinlari.com.tr/#!" },
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("%c⚠️ DİKKAT ⚠️", "font-size:24px;color:red;font-weight:bold;font-family:sans-serif;text-shadow:1px 1px 3px darkred;");
+            console.log("%cHey Geliştirici! Bu platformda yer alan tüm içerikler, yalnızca yasal hak sahipleri tarafından korunmaktadır ve izinsiz kullanılamaz. İçeriklerin kopyalanması, paylaşılması veya ticari amaçla kullanılması yasaktır. Platformun API'sinin kötüye kullanımı da kesinlikle kabul edilemez. Bu tür eylemler tespit edildiğinde, ilgili tüm faaliyetler kaydedilecek ve yasal gereklilikler doğrultusunda işlem başlatılacaktır. Kullanıcılar, platformu yalnızca yasal ve doğru şekilde kullanmakla sorumludur.", "font-size:14px;color:blue;line-height:1.5;");
+            console.log("%c▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬", "color:blue;");
+            console.log("%c© 2025 ÇözümNet | Tüm hakları saklıdır.", "font-size:12px;color:blue;font-style:italic;");
+
+            initMobileMenu();
+            initThemeToggle();
+            initOfflineDetection();
+            initNavigation();
+            initEmailLink();
+            setCopyrightYear();
+            initScrollEffects();
+            initLegalBanner();
+            
+            const page = window.location.hash.substring(1) || 'home';
+            loadPage(page);
+        });
+
+        function initLegalBanner() {
+            const banner = document.getElementById('legalBanner');
+            const closeBtn = document.getElementById('legalBannerClose');
+            
+            setTimeout(() => {
+                banner.classList.add('show');
+            }, 2000);
+            
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                banner.classList.remove('show');
+                sessionStorage.setItem('legalBannerClosed', 'true');
+            });
+            
+            banner.addEventListener('click', function() {
+                loadPage('legal');
+                banner.classList.remove('show');
+                sessionStorage.setItem('legalBannerClosed', 'true');
+            });
+        }
+
+        function setCopyrightYear() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        }
+
+        function initEmailLink() {
+            const emailLink = document.getElementById('emailLink');
+            emailLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = "mailto:kayrapps10@gmail.com";
+            });
+        }
+
+        function initScrollEffects() {
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                document.querySelectorAll('.feature-card, .publisher-card').forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        const speed = 0.1 + (index * 0.02);
+                        const yPos = -(window.scrollY * speed);
+                        card.style.transform = `translateY(${yPos}px) rotateY(${yPos/10}deg)`;
+                    }
+                });
+            });
+        }
+
+        function initMobileMenu() {
+            const toggle = document.getElementById('mobileMenuToggle');
+            const menu = document.getElementById('navLinks');
+            
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                menu.classList.toggle('active');
+                
+                if (menu.classList.contains('active')) {
+                    this.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    this.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.navbar') && menu.classList.contains('active')) {
+                    menu.classList.remove('active');
+                    toggle.classList.remove('active');
+                    toggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function() {
+                    menu.classList.remove('active');
+                    toggle.classList.remove('active');
+                    toggle.innerHTML = '<i class="fas fa-bars"></i>';
+                });
+            });
+        }
+
+        function initThemeToggle() {
+            const toggle = document.getElementById('themeToggle');
+            
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                toggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+
+            toggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    this.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    this.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+        }
+
+        function initNavigation() {
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-page]')) {
+                    e.preventDefault();
+                    const page = e.target.closest('[data-page]').getAttribute('data-page');
+                    loadPage(page);
+                    
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    e.target.closest('a').classList.add('active');
+                }
+            });
+        }
+
+        function initOfflineDetection() {
+            window.addEventListener('offline', () => {
+                loadErrorPage('offline');
+            });
+            
+            window.addEventListener('online', () => {
+                if (window.location.hash === '#offline') {
+                    loadPage('home');
+                }
+            });
+        }
+
+        function showProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '30%';
+            progressBar.style.transition = 'width 0.4s ease';
+            
+            setTimeout(() => {
+                progressBar.style.width = '70%';
+            }, 300);
+            
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+            }, 600);
+        }
+
+        function hideProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '100%';
+            progressBar.style.opacity = '1';
+            
+            setTimeout(() => {
+                progressBar.style.transition = 'opacity 0.3s ease, width 0s ease 0.3s';
+                progressBar.style.opacity = '0';
+            }, 300);
+            
+            setTimeout(() => {
+                progressBar.style.width = '0%';
+            }, 600);
+        }
+
+        function loadPage(page) {
+            const content = document.getElementById('main-content');
+            
+            showProgressBar();
+            
+            document.getElementById('navLinks').classList.remove('active');
+            document.getElementById('mobileMenuToggle').innerHTML = '<i class="fas fa-bars"></i>';
+            document.getElementById('mobileMenuToggle').classList.remove('active');
+            
+            content.innerHTML = `
+                <div class="skeleton-loader">
+                    <div class="skeleton-hero" style="height: 300px; margin-bottom: 40px;"></div>
+                    <div class="skeleton-card" style="height: 150px; margin-bottom: 20px;"></div>
+                    <div class="skeleton-card" style="height: 150px; margin-bottom: 20px;"></div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                if (!navigator.onLine && page !== 'offline') {
+                    loadErrorPage('offline');
+                    hideProgressBar();
+                    return;
+                }
+                
+                try {
+                    switch(page) {
+                        case 'home': loadHomePage(); break;
+                        case 'about': loadAboutPage(); break;
+                        case 'publishers': loadPublishersPage(); break;
+                        case 'contact': loadContactPage(); break;
+                        case 'legal': loadLegalPage(); break;
+                        case 'broken-link': loadErrorPage('broken-link'); break;
+                        case 'not-found': loadErrorPage('not-found'); break;
+                        case 'offline': loadErrorPage('offline'); break;
+                        default: loadErrorPage('not-found');
+                    }
+                    window.location.hash = page;
+                    
+                    setTimeout(hideProgressBar, 500);
+                } catch (error) {
+                    console.error('Page load error:', error);
+                    loadErrorPage('error');
+                    hideProgressBar();
+                }
+            }, 300);
+        }
+
+        function loadHomePage() {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <section class="hero">
+                    <div class="container">
+                        <h1 style="color: #0275e7;">Eğitimde Yeni Çağ</h1>
+                        <p>Türkiye'nin önde gelen yayınevlerinin video çözümlerine tek bir yerden ulaşın.</p>
+                        <div class="hero-buttons">
+                            <a href="#" class="btn btn-primary btn-3d" data-page="publishers">
+                                <i class="fas fa-play-circle"></i> Hemen Başla
+                            </a>
+                            <a href="#" class="btn btn-secondary btn-3d" data-page="about">
+                                <i class="fas fa-info-circle"></i> Daha Fazla Bilgi
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <section class="features">
+                    <div class="container">
+                        <h2 class="section-title">Neden ÇözümNet?</h2>
+                        <div class="features-grid">
+                            <div class="feature-card tilt-3d">
+                                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                                <h3 class="feature-title">Hızlı Erişim</h3>
+                                <p class="feature-desc">Tüm çözümlere tek tıkla ulaşın.</p>
+                            </div>
+                            <div class="feature-card flip-3d">
+                                <div class="feature-icon"><i class="fas fa-book-open"></i></div>
+                                <h3 class="feature-title">Kapsamlı İçerik</h3>
+                                <p class="feature-desc">Tüm derslerdeki çözümler burada.</p>
+                            </div>
+                            <div class="feature-card depth-3d">
+                                <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                                <h3 class="feature-title">Zaman Tasarrufu</h3>
+                                <p class="feature-desc">Ders çalışma sürenizi verimli kullanın.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+            
+            initHoverEffects();
+        }
+
+        function loadAboutPage() {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <section class="about">
+                    <div class="container">
+                        <h2 class="section-title">Hakkımızda</h2>
+                        <div class="about-content cube-3d">
+                            <h3 class="about-title">ÇözümNet Hakkında</h3>
+                            <p class="about-text">ÇözümNet, öğrencilere en hızlı ve kolay şekilde video çözümlere ulaşma imkânı sunan yenilikçi bir platformdur. 2025 yılında, öğrencilerin zaman kaybetmeden doğru kaynağa erişebilmesini sağlamak amacıyla kurulmuştur.</p>
+                            <p class="about-text">ÇözümNet, Türkiye'deki tüm ortaokul ve lise yayınevlerinin sunduğu video çözüm linklerini tek bir platformda bir araya getiriyor. Kullanıcılar, sadece birkaç tıklama ile istedikleri video çözümü kolayca bulabiliyor ve eğitim süreçlerini daha verimli hale getiriyor.</p>
+                            <p class="about-text">Misyonumuz, öğrencilerin derslerde karşılaştıkları sorunları en hızlı şekilde çözmelerine yardımcı olmak ve eğitim hayatlarını kolaylaştırmaktır. Vizyonumuz ise Türkiye'nin en kapsamlı eğitim çözüm platformu olmaktır.</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function loadPublishersPage() {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <section class="publishers">
+                    <div class="container">
+                        <h2 class="section-title">Yayınevleri</h2>
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" id="searchInput" placeholder="Yayınevi ara...">
+                        </div>
+                        <div class="publishers-grid" id="publishersGrid"></div>
+                    </div>
+                </section>
+            `;
+
+            renderPublishers();
+            
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                renderPublishers(e.target.value.toLowerCase());
+            });
+        }
+
+        function loadLegalPage() {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <section class="legal">
+                    <div class="container">
+                        <div class="legal-container cube-3d">
+                            <h2 class="legal-title">Yasal Uyarılar</h2>
+                            
+                                <h3 class="legal-section-title">Sorumluluk Reddi Beyanı</h3>
+                                    <div class="legal-section-content">
+                                        <p>ÇözümNet, kullanıcıların yayınevlerine ait video çözüm sayfalarına kolayca erişebilmesi için geliştirilmiş bir yönlendirme platformudur. Sitemizdeki butonlar, doğrudan ilgili yayınevlerinin resmi web sitelerine yönlendirme yapmaktadır.</p>
+                                        <p>ÇözümNet, yönlendirdiği sitelerdeki içeriklerin doğruluğu, güncelliği veya erişilebilirliği konusunda herhangi bir sorumluluk taşımaz. Kullanıcılar, yönlendirildikleri sitelerdeki içeriklerden doğrudan ilgili yayınevlerinin veya üçüncü taraf hizmet sağlayıcılarının sorumlu olduğunu kabul ederler.</p>
+                                        <p>Ayrıca, bağlantı verilen sitelerde yapılan değişiklikler veya sağlanan hizmetlerle ilgili herhangi bir garanti verilmemekte olup, kullanıcıların ilgili yayınevlerinin gizlilik politikalarını ve kullanım koşullarını kontrol etmeleri önerilir.</p>
+                                    </div>
+
+                                    <br>
+
+                                    <h3 class="legal-section-title">Kişisel Verilerin Korunması Politikası</h3>
+                                    <div class="legal-section-content">
+                                        <p>ÇözümNet, kullanıcı gizliliğine büyük önem verir ve kişisel verilerin korunmasını öncelikli hale getirir.</p>
+                                        <p><strong>Veri Toplama:</strong> Bu site çerez (cookie) kullanmaz. Kullanıcı tercihleri (örneğin, tema seçimi) yalnızca tarayıcınızın localStorage alanında saklanır ve cihazınız dışında hiçbir yerde depolanmaz.</p>
+                                        <p><strong>Veri Paylaşımı:</strong> ÇözümNet, kullanıcı verilerini çok zorunlu yasal işlemler dışında ASLA üçüncü taraflarla paylaşmaz.</p>
+                                        <p><strong>Güvenlik:</strong> Kullanıcı verilerinin güvenliği için gerekli teknik ve idari önlemler alınmıştır.</p>
+                                    </div>
+
+                                    <br>
+
+                                    <h3 class="legal-section-title">Yasal Uyarı ve İçerik Kullanımı</h3>
+                                    <div class="legal-section-content">
+                                        <p>ÇözümNet'te yer alan tüm içerikler, 5846 sayılı Fikir ve Sanat Eserleri Kanunu (FSEK) ve ilgili diğer mevzuat kapsamında korunmaktadır. İzinsiz kullanım, çoğaltma, dağıtım veya ticari amaçlı kullanım yasal sorumluluk doğurabilir.</p>
+                                        <p>Aşağıdaki eylemler yasaktır ve hukuki yaptırımlara tabi olabilir:</p>
+                                        <ul>
+                                            <li>ÇözümNet'te yer alan içeriklerin izinsiz olarak kopyalanması, paylaşılması veya ticari amaçlarla kullanılması,</li>
+                                            <li>Platformun kaynak kodlarının değiştirilmesi veya izinsiz şekilde dağıtılması,</li>
+                                            <li>Başka bir web sitesi veya platformda ÇözümNet içeriğinin izinsiz kullanımı.</li>
+                                        </ul>
+                                        <p>Daha fazla bilgi için <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=5846&MevzuatTur=1&MevzuatTertip=3" target="_blank">5846 sayılı FSEK</a> yasasına göz atabilirsiniz.</p>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function checkLinkAvailability(url) {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="skeleton-loader">
+                    <div style="text-align: center; padding: 50px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: var(--primary-color); margin-bottom: 20px;"></i>
+                        <p>Bağlantı kontrol ediliyor...</p>
+                    </div>
+                </div>
+            `;
+
+            showProgressBar();
+            
+            const minLoadingTime = 2000;
+            const startTime = Date.now();
+            
+            fetch(url, { 
+                mode: 'no-cors',
+                cache: 'no-cache',
+                referrerPolicy: 'no-referrer'
+            })
+            .then(() => {
+                const elapsed = Date.now() - startTime;
+                const remaining = Math.max(0, minLoadingTime - elapsed);
+                
+                return new Promise(resolve => setTimeout(resolve, remaining));
+            })
+            .then(() => {
+                window.open(url, '_blank', 'noopener,noreferrer');
+                
+                setTimeout(() => {
+                    loadPage('publishers');
+                }, 1000);
+            })
+            .catch(() => {
+                loadErrorPage('broken-link', url);
+            })
+            .finally(() => {
+                setTimeout(hideProgressBar, 500);
+            });
+        }
+
+        function renderPublishers(filter = '') {
+            const container = document.getElementById('publishersGrid');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const filtered = filter ? 
+                publishers.filter(p => p.name.toLowerCase().includes(filter)) : 
+                publishers;
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-results">Sonuç bulunamadı</div>';
+                return;
+            }
+            
+            filtered.forEach((publisher, index) => {
+                const card = document.createElement('div');
+                card.className = 'publisher-card tilt-3d';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.innerHTML = `
+                    <a href="${publisher.url}" class="publisher-link" rel="noopener noreferrer" target="_blank">
+                        <i class="fas fa-book"></i>
+                        <div class="publisher-name">${publisher.name}</div>
+                        <div class="publisher-hover-text">Siteye git</div>
+                    </a>
+                `;
+                container.appendChild(card);
+            });
+
+            container.querySelectorAll('.publisher-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    checkLinkAvailability(this.href);
+                });
+            });
+        }
+
+        function loadContactPage() {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <section class="contact">
+                    <div class="container">
+                        <h2 class="section-title">İletişim</h2>
+                        <div class="contact-container cube-3d">
+                            <h3 class="contact-title">Bizimle İletişime Geçin</h3>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                                    <div class="contact-text">
+                                        <strong>E-Posta</strong>
+                                        <a href="mailto:kayrapps10@gmail.com" class="contact-link">kayrapps10@gmail.com</a>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                                    <div class="contact-text">
+                                        <strong>Telefon</strong>
+                                        <a href="tel:+905516902754">+90 XXX XXX XX XX</a>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div class="contact-text">
+                                        <strong>Adres</strong>
+                                        <span>Balıkesir, Türkiye</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="social-links">
+                                <a href=https://www.instagram.com/kayrapps10/" class="social-link" target="_blank" rel="noopener noreferrer">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function loadErrorPage(type, brokenUrl = '') {
+            const content = document.getElementById('main-content');
+            let errorContent = '';
+            
+            switch(type) {
+                case 'broken-link':
+                    errorContent = `
+                        <div class="error-page">
+                            <div class="error-icon"><i class="fas fa-unlink"></i></div>
+                            <h1 class="error-title">Oops! Bu Link Çalışmıyor</h1>
+                            <p class="error-message">
+                                <strong>${brokenUrl}</strong><br><br>
+                                Bu yayınevinin çözüm sayfasına şu anda ulaşılamıyor. 
+                                Lütfen daha sonra tekrar deneyin veya farklı bir yayınevi seçin.
+                            </p>
+                            <button class="error-btn btn-3d" onclick="loadPage('publishers')">
+                                <i class="fas fa-arrow-left"></i> Geri Dön
+                            </button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'not-found':
+                    errorContent = `
+                        <div class="error-page">
+                            <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                            <h1 class="error-title">404 - Sayfa Bulunamadı</h1>
+                            <p class="error-message">
+                                Aradığınız sayfa taşınmış veya kaldırılmış olabilir.<br>
+                                Ana sayfaya dönerek aradığınız içeriğe ulaşmayı deneyebilirsiniz.
+                            </p>
+                            <button class="error-btn btn-3d" onclick="loadPage('home')">
+                                <i class="fas fa-home"></i> Ana Sayfaya Dön
+                            </button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'offline':
+                    errorContent = `
+                        <div class="offline-page">
+                            <div class="offline-icon"><i class="fas fa-wifi"></i></div>
+                            <h1 class="error-title">İnternet Bağlantısı Yok</h1>
+                            <p class="error-message">
+                                Çevrimdışı moddasınız. İnternet bağlantınızı kontrol edip<br>
+                                tekrar deneyin.
+                            </p>
+                            <button class="error-btn btn-3d" onclick="window.location.reload()">
+                                <i class="fas fa-sync-alt"></i> Yeniden Dene
+                            </button>
+                        </div>
+                    `;
+                    break;
+                    
+                default:
+                    errorContent = `
+                        <div class="error-page">
+                            <div class="error-icon"><i class="fas fa-bug"></i></div>
+                            <h1 class="error-title">Bir Hata Oluştu</h1>
+                            <p class="error-message">
+                                Beklenmedik bir hata oluştu. Lütfen daha sonra tekrar deneyin.
+                            </p>
+                            <button class="error-btn btn-3d" onclick="loadPage('home')">
+                                <i class="fas fa-home"></i> Ana Sayfaya Dön
+                            </button>
+                        </div>
+                    `;
+            }
+            
+            content.innerHTML = errorContent;
+        }
+
+        function initHoverEffects() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-8px) scale(1.02) rotateY(5deg)';
+                    card.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1) rotateY(0)';
+                    card.style.boxShadow = 'var(--shadow)';
+                });
+            });
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+    <div class="cookie-consent-container" id="cookieConsentContainer">
+    <div class="cookie-consent-content">
+        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
+        <div class="cookie-links">
+            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
+            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
+            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
+            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
+        </div>
+    </div>
+    
+    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
+        <h3>Çerez Tercihleri</h3>
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Zorunlu Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Analitik Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="analyticsCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Reklam Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="advertisingCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Performans Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="performanceCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
+    </div>
+</div>
+
+<style>
+    .cookie-consent-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 380px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transform: translateX(-150%);
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .cookie-consent-container.show {
+        transform: translateX(0);
+    }
+    
+    .cookie-consent-content p {
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+    }
+    
+    .cookie-links {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .cookie-links a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        font-size: 13px;
+        transition: color 0.3s ease;
+    }
+    
+    .cookie-links a:hover {
+        color: var(--primary-hover);
+    }
+    
+    .cookie-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .cookie-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .accept-btn {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .accept-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+    
+    .preferences-btn {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .preferences-btn:hover {
+        background-color: rgba(0, 113, 227, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .save-btn {
+        background-color: var(--primary-color);
+        color: white;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .save-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    
+    .cookie-preferences-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .cookie-preferences-panel.show {
+        max-height: 500px;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+    }
+    
+    .cookie-preferences-panel h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference {
+        margin-bottom: 15px;
+    }
+    
+    .cookie-preference-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .cookie-preference-header span {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+    
+    .cookie-toggle {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+    
+    .cookie-toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .cookie-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+    }
+    
+    .cookie-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .cookie-slider {
+        background-color: var(--primary-color);
+    }
+    
+    input:checked + .cookie-slider:before {
+        transform: translateX(26px);
+    }
+    
+    input:disabled + .cookie-slider {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 480px) {
+        .cookie-consent-container {
+            left: 10px;
+            right: 10px;
+            max-width: none;
+            bottom: 10px;
+        }
+        
+        .cookie-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+        
+        // Eğer kullanıcı daha önce onay vermediyse göster
+        if (!cookieConsent) {
+            const container = document.getElementById('cookieConsentContainer');
+            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
+            const acceptAllBtn = document.getElementById('cookieAcceptAll');
+            const preferencesBtn = document.getElementById('cookiePreferences');
+            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
+            
+            // Kutuyu göster
+            setTimeout(() => {
+                container.classList.add('show');
+            }, 1000);
+            
+            // Tercih panelini aç/kapat
+            preferencesBtn.addEventListener('click', function() {
+                preferencesPanel.classList.toggle('show');
+            });
+            
+            // Tümünü kabul et
+            acceptAllBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'all');
+                container.classList.remove('show');
+                
+                // Tüm çerezleri etkinleştir
+                enableAllCookies();
+            });
+            
+            // Tercihleri kaydet
+            savePreferencesBtn.addEventListener('click', function() {
+                const preferences = {
+                    analytics: document.getElementById('analyticsCookies').checked,
+                    advertising: document.getElementById('advertisingCookies').checked,
+                    performance: document.getElementById('performanceCookies').checked
+                };
+                
+                localStorage.setItem('cookieConsent', 'custom');
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                container.classList.remove('show');
+                
+                // Seçilen çerezleri etkinleştir
+                if (preferences.analytics) enableAnalyticsCookies();
+                if (preferences.advertising) enableAdvertisingCookies();
+                if (preferences.performance) enablePerformanceCookies();
+            });
+            
+            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
+            if (cookieConsent === 'custom') {
+                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
+                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
+                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
+            }
+        } else {
+            // Daha önce onay verilmişse çerezleri etkinleştir
+            if (cookieConsent === 'all') {
+                enableAllCookies();
+            } else if (cookieConsent === 'custom') {
+                if (cookiePreferences.analytics) enableAnalyticsCookies();
+                if (cookiePreferences.advertising) enableAdvertisingCookies();
+                if (cookiePreferences.performance) enablePerformanceCookies();
+            }
+        }
+        
+        // Zorunlu çerezler her zaman etkin
+        enableEssentialCookies();
+    });
+    
+    function enableEssentialCookies() {
+        // Zorunlu çerezlerin yüklenmesi
+        console.log('Zorunlu çerezler etkinleştirildi');
+    }
+    
+    function enableAnalyticsCookies() {
+        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
+        console.log('Analitik çerezler etkinleştirildi');
+    }
+    
+    function enableAdvertisingCookies() {
+        // Reklam çerezlerinin yüklenmesi
+        console.log('Reklam çerezleri etkinleştirildi');
+    }
+    
+    function enablePerformanceCookies() {
+        // Performans çerezlerinin yüklenmesi
+        console.log('Performans çerezleri etkinleştirildi');
+    }
+    
+    function enableAllCookies() {
+        enableEssentialCookies();
+        enableAnalyticsCookies();
+        enableAdvertisingCookies();
+        enablePerformanceCookies();
+    }
+</script>
+<div class="cookie-consent-container" id="cookieConsentContainer">
+    <div class="cookie-consent-content">
+        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
+        <div class="cookie-links">
+            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
+            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
+            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
+            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
+        </div>
+    </div>
+    
+    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
+        <h3>Çerez Tercihleri</h3>
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Zorunlu Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Analitik Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="analyticsCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Reklam Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="advertisingCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Performans Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="performanceCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
+    </div>
+</div>
+
+<style>
+    .cookie-consent-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 380px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transform: translateX(-150%);
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .cookie-consent-container.show {
+        transform: translateX(0);
+    }
+    
+    .cookie-consent-content p {
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+    }
+    
+    .cookie-links {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .cookie-links a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        font-size: 13px;
+        transition: color 0.3s ease;
+    }
+    
+    .cookie-links a:hover {
+        color: var(--primary-hover);
+    }
+    
+    .cookie-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .cookie-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .accept-btn {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .accept-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+    
+    .preferences-btn {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .preferences-btn:hover {
+        background-color: rgba(0, 113, 227, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .save-btn {
+        background-color: var(--primary-color);
+        color: white;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .save-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    
+    .cookie-preferences-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .cookie-preferences-panel.show {
+        max-height: 500px;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+    }
+    
+    .cookie-preferences-panel h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference {
+        margin-bottom: 15px;
+    }
+    
+    .cookie-preference-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .cookie-preference-header span {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+    
+    .cookie-toggle {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+    
+    .cookie-toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .cookie-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+    }
+    
+    .cookie-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .cookie-slider {
+        background-color: var(--primary-color);
+    }
+    
+    input:checked + .cookie-slider:before {
+        transform: translateX(26px);
+    }
+    
+    input:disabled + .cookie-slider {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 480px) {
+        .cookie-consent-container {
+            left: 10px;
+            right: 10px;
+            max-width: none;
+            bottom: 10px;
+        }
+        
+        .cookie-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+        
+        // Eğer kullanıcı daha önce onay vermediyse göster
+        if (!cookieConsent) {
+            const container = document.getElementById('cookieConsentContainer');
+            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
+            const acceptAllBtn = document.getElementById('cookieAcceptAll');
+            const preferencesBtn = document.getElementById('cookiePreferences');
+            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
+            
+            // Kutuyu göster
+            setTimeout(() => {
+                container.classList.add('show');
+            }, 1000);
+            
+            // Tercih panelini aç/kapat
+            preferencesBtn.addEventListener('click', function() {
+                preferencesPanel.classList.toggle('show');
+            });
+            
+            // Tümünü kabul et
+            acceptAllBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'all');
+                container.classList.remove('show');
+                
+                // Tüm çerezleri etkinleştir
+                enableAllCookies();
+            });
+            
+            // Tercihleri kaydet
+            savePreferencesBtn.addEventListener('click', function() {
+                const preferences = {
+                    analytics: document.getElementById('analyticsCookies').checked,
+                    advertising: document.getElementById('advertisingCookies').checked,
+                    performance: document.getElementById('performanceCookies').checked
+                };
+                
+                localStorage.setItem('cookieConsent', 'custom');
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                container.classList.remove('show');
+                
+                // Seçilen çerezleri etkinleştir
+                if (preferences.analytics) enableAnalyticsCookies();
+                if (preferences.advertising) enableAdvertisingCookies();
+                if (preferences.performance) enablePerformanceCookies();
+            });
+            
+            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
+            if (cookieConsent === 'custom') {
+                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
+                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
+                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
+            }
+        } else {
+            // Daha önce onay verilmişse çerezleri etkinleştir
+            if (cookieConsent === 'all') {
+                enableAllCookies();
+            } else if (cookieConsent === 'custom') {
+                if (cookiePreferences.analytics) enableAnalyticsCookies();
+                if (cookiePreferences.advertising) enableAdvertisingCookies();
+                if (cookiePreferences.performance) enablePerformanceCookies();
+            }
+        }
+        
+        // Zorunlu çerezler her zaman etkin
+        enableEssentialCookies();
+    });
+    
+    function enableEssentialCookies() {
+        // Zorunlu çerezlerin yüklenmesi
+        console.log('Zorunlu çerezler etkinleştirildi');
+    }
+    
+    function enableAnalyticsCookies() {
+        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
+        console.log('Analitik çerezler etkinleştirildi');
+    }
+    
+    function enableAdvertisingCookies() {
+        // Reklam çerezlerinin yüklenmesi
+        console.log('Reklam çerezleri etkinleştirildi');
+    }
+    
+    function enablePerformanceCookies() {
+        // Performans çerezlerinin yüklenmesi
+        console.log('Performans çerezleri etkinleştirildi');
+    }
+    
+    function enableAllCookies() {
+        enableEssentialCookies();
+        enableAnalyticsCookies();
+        enableAdvertisingCookies();
+        enablePerformanceCookies();
+    }
+</script>
+<div class="cookie-consent-container" id="cookieConsentContainer">
+    <div class="cookie-consent-content">
+        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
+        <div class="cookie-links">
+            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
+            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
+            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
+            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
+        </div>
+    </div>
+    
+    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
+        <h3>Çerez Tercihleri</h3>
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Zorunlu Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Analitik Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="analyticsCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Reklam Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="advertisingCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Performans Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="performanceCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
+    </div>
+</div>
+
+<style>
+    .cookie-consent-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 380px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transform: translateX(-150%);
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .cookie-consent-container.show {
+        transform: translateX(0);
+    }
+    
+    .cookie-consent-content p {
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+    }
+    
+    .cookie-links {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .cookie-links a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        font-size: 13px;
+        transition: color 0.3s ease;
+    }
+    
+    .cookie-links a:hover {
+        color: var(--primary-hover);
+    }
+    
+    .cookie-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .cookie-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .accept-btn {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .accept-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+    
+    .preferences-btn {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .preferences-btn:hover {
+        background-color: rgba(0, 113, 227, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .save-btn {
+        background-color: var(--primary-color);
+        color: white;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .save-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    
+    .cookie-preferences-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .cookie-preferences-panel.show {
+        max-height: 500px;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+    }
+    
+    .cookie-preferences-panel h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference {
+        margin-bottom: 15px;
+    }
+    
+    .cookie-preference-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .cookie-preference-header span {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+    
+    .cookie-toggle {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+    
+    .cookie-toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .cookie-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+    }
+    
+    .cookie-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .cookie-slider {
+        background-color: var(--primary-color);
+    }
+    
+    input:checked + .cookie-slider:before {
+        transform: translateX(26px);
+    }
+    
+    input:disabled + .cookie-slider {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 480px) {
+        .cookie-consent-container {
+            left: 10px;
+            right: 10px;
+            max-width: none;
+            bottom: 10px;
+        }
+        
+        .cookie-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+        
+        // Eğer kullanıcı daha önce onay vermediyse göster
+        if (!cookieConsent) {
+            const container = document.getElementById('cookieConsentContainer');
+            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
+            const acceptAllBtn = document.getElementById('cookieAcceptAll');
+            const preferencesBtn = document.getElementById('cookiePreferences');
+            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
+            
+            // Kutuyu göster
+            setTimeout(() => {
+                container.classList.add('show');
+            }, 1000);
+            
+            // Tercih panelini aç/kapat
+            preferencesBtn.addEventListener('click', function() {
+                preferencesPanel.classList.toggle('show');
+            });
+            
+            // Tümünü kabul et
+            acceptAllBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'all');
+                container.classList.remove('show');
+                
+                // Tüm çerezleri etkinleştir
+                enableAllCookies();
+            });
+            
+            // Tercihleri kaydet
+            savePreferencesBtn.addEventListener('click', function() {
+                const preferences = {
+                    analytics: document.getElementById('analyticsCookies').checked,
+                    advertising: document.getElementById('advertisingCookies').checked,
+                    performance: document.getElementById('performanceCookies').checked
+                };
+                
+                localStorage.setItem('cookieConsent', 'custom');
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                container.classList.remove('show');
+                
+                // Seçilen çerezleri etkinleştir
+                if (preferences.analytics) enableAnalyticsCookies();
+                if (preferences.advertising) enableAdvertisingCookies();
+                if (preferences.performance) enablePerformanceCookies();
+            });
+            
+            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
+            if (cookieConsent === 'custom') {
+                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
+                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
+                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
+            }
+        } else {
+            // Daha önce onay verilmişse çerezleri etkinleştir
+            if (cookieConsent === 'all') {
+                enableAllCookies();
+            } else if (cookieConsent === 'custom') {
+                if (cookiePreferences.analytics) enableAnalyticsCookies();
+                if (cookiePreferences.advertising) enableAdvertisingCookies();
+                if (cookiePreferences.performance) enablePerformanceCookies();
+            }
+        }
+        
+        // Zorunlu çerezler her zaman etkin
+        enableEssentialCookies();
+    });
+    
+    function enableEssentialCookies() {
+        // Zorunlu çerezlerin yüklenmesi
+        console.log('Zorunlu çerezler etkinleştirildi');
+    }
+    
+    function enableAnalyticsCookies() {
+        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
+        console.log('Analitik çerezler etkinleştirildi');
+    }
+    
+    function enableAdvertisingCookies() {
+        // Reklam çerezlerinin yüklenmesi
+        console.log('Reklam çerezleri etkinleştirildi');
+    }
+    
+    function enablePerformanceCookies() {
+        // Performans çerezlerinin yüklenmesi
+        console.log('Performans çerezleri etkinleştirildi');
+    }
+    
+    function enableAllCookies() {
+        enableEssentialCookies();
+        enableAnalyticsCookies();
+        enableAdvertisingCookies();
+        enablePerformanceCookies();
+    }
+</script>
+<div class="cookie-consent-container" id="cookieConsentContainer">
+    <div class="cookie-consent-content">
+        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
+        <div class="cookie-links">
+            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
+            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
+            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
+            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
+        </div>
+    </div>
+    
+    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
+        <h3>Çerez Tercihleri</h3>
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Zorunlu Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Analitik Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="analyticsCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Reklam Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="advertisingCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Performans Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="performanceCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
+    </div>
+</div>
+
+<style>
+    .cookie-consent-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 380px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transform: translateX(-150%);
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .cookie-consent-container.show {
+        transform: translateX(0);
+    }
+    
+    .cookie-consent-content p {
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+    }
+    
+    .cookie-links {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .cookie-links a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        font-size: 13px;
+        transition: color 0.3s ease;
+    }
+    
+    .cookie-links a:hover {
+        color: var(--primary-hover);
+    }
+    
+    .cookie-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .cookie-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .accept-btn {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .accept-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+    
+    .preferences-btn {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .preferences-btn:hover {
+        background-color: rgba(0, 113, 227, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .save-btn {
+        background-color: var(--primary-color);
+        color: white;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .save-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    
+    .cookie-preferences-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .cookie-preferences-panel.show {
+        max-height: 500px;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+    }
+    
+    .cookie-preferences-panel h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference {
+        margin-bottom: 15px;
+    }
+    
+    .cookie-preference-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .cookie-preference-header span {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+    
+    .cookie-toggle {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+    
+    .cookie-toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .cookie-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+    }
+    
+    .cookie-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .cookie-slider {
+        background-color: var(--primary-color);
+    }
+    
+    input:checked + .cookie-slider:before {
+        transform: translateX(26px);
+    }
+    
+    input:disabled + .cookie-slider {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 480px) {
+        .cookie-consent-container {
+            left: 10px;
+            right: 10px;
+            max-width: none;
+            bottom: 10px;
+        }
+        
+        .cookie-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+        
+        // Eğer kullanıcı daha önce onay vermediyse göster
+        if (!cookieConsent) {
+            const container = document.getElementById('cookieConsentContainer');
+            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
+            const acceptAllBtn = document.getElementById('cookieAcceptAll');
+            const preferencesBtn = document.getElementById('cookiePreferences');
+            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
+            
+            // Kutuyu göster
+            setTimeout(() => {
+                container.classList.add('show');
+            }, 1000);
+            
+            // Tercih panelini aç/kapat
+            preferencesBtn.addEventListener('click', function() {
+                preferencesPanel.classList.toggle('show');
+            });
+            
+            // Tümünü kabul et
+            acceptAllBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'all');
+                container.classList.remove('show');
+                
+                // Tüm çerezleri etkinleştir
+                enableAllCookies();
+            });
+            
+            // Tercihleri kaydet
+            savePreferencesBtn.addEventListener('click', function() {
+                const preferences = {
+                    analytics: document.getElementById('analyticsCookies').checked,
+                    advertising: document.getElementById('advertisingCookies').checked,
+                    performance: document.getElementById('performanceCookies').checked
+                };
+                
+                localStorage.setItem('cookieConsent', 'custom');
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                container.classList.remove('show');
+                
+                // Seçilen çerezleri etkinleştir
+                if (preferences.analytics) enableAnalyticsCookies();
+                if (preferences.advertising) enableAdvertisingCookies();
+                if (preferences.performance) enablePerformanceCookies();
+            });
+            
+            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
+            if (cookieConsent === 'custom') {
+                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
+                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
+                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
+            }
+        } else {
+            // Daha önce onay verilmişse çerezleri etkinleştir
+            if (cookieConsent === 'all') {
+                enableAllCookies();
+            } else if (cookieConsent === 'custom') {
+                if (cookiePreferences.analytics) enableAnalyticsCookies();
+                if (cookiePreferences.advertising) enableAdvertisingCookies();
+                if (cookiePreferences.performance) enablePerformanceCookies();
+            }
+        }
+        
+        // Zorunlu çerezler her zaman etkin
+        enableEssentialCookies();
+    });
+    
+    function enableEssentialCookies() {
+        // Zorunlu çerezlerin yüklenmesi
+        console.log('Zorunlu çerezler etkinleştirildi');
+    }
+    
+    function enableAnalyticsCookies() {
+        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
+        console.log('Analitik çerezler etkinleştirildi');
+    }
+    
+    function enableAdvertisingCookies() {
+        // Reklam çerezlerinin yüklenmesi
+        console.log('Reklam çerezleri etkinleştirildi');
+    }
+    
+    function enablePerformanceCookies() {
+        // Performans çerezlerinin yüklenmesi
+        console.log('Performans çerezleri etkinleştirildi');
+    }
+    
+    function enableAllCookies() {
+        enableEssentialCookies();
+        enableAnalyticsCookies();
+        enableAdvertisingCookies();
+        enablePerformanceCookies();
+    }
+</script>
+<div class="cookie-consent-container" id="cookieConsentContainer">
+    <div class="cookie-consent-content">
+        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
+        <div class="cookie-links">
+            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
+            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
+            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
+            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
+        </div>
+    </div>
+    
+    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
+        <h3>Çerez Tercihleri</h3>
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Zorunlu Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Analitik Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="analyticsCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Reklam Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="advertisingCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Performans Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="performanceCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
+    </div>
+</div>
+
+<style>
+    .cookie-consent-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 380px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transform: translateX(-150%);
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .cookie-consent-container.show {
+        transform: translateX(0);
+    }
+    
+    .cookie-consent-content p {
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+    }
+    
+    .cookie-links {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .cookie-links a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        font-size: 13px;
+        transition: color 0.3s ease;
+    }
+    
+    .cookie-links a:hover {
+        color: var(--primary-hover);
+    }
+    
+    .cookie-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .cookie-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .accept-btn {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .accept-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+    
+    .preferences-btn {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .preferences-btn:hover {
+        background-color: rgba(0, 113, 227, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .save-btn {
+        background-color: var(--primary-color);
+        color: white;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .save-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    
+    .cookie-preferences-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .cookie-preferences-panel.show {
+        max-height: 500px;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+    }
+    
+    .cookie-preferences-panel h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference {
+        margin-bottom: 15px;
+    }
+    
+    .cookie-preference-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .cookie-preference-header span {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+    
+    .cookie-toggle {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+    
+    .cookie-toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .cookie-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+    }
+    
+    .cookie-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .cookie-slider {
+        background-color: var(--primary-color);
+    }
+    
+    input:checked + .cookie-slider:before {
+        transform: translateX(26px);
+    }
+    
+    input:disabled + .cookie-slider {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 480px) {
+        .cookie-consent-container {
+            left: 10px;
+            right: 10px;
+            max-width: none;
+            bottom: 10px;
+        }
+        
+        .cookie-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+        
+        // Eğer kullanıcı daha önce onay vermediyse göster
+        if (!cookieConsent) {
+            const container = document.getElementById('cookieConsentContainer');
+            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
+            const acceptAllBtn = document.getElementById('cookieAcceptAll');
+            const preferencesBtn = document.getElementById('cookiePreferences');
+            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
+            
+            // Kutuyu göster
+            setTimeout(() => {
+                container.classList.add('show');
+            }, 1000);
+            
+            // Tercih panelini aç/kapat
+            preferencesBtn.addEventListener('click', function() {
+                preferencesPanel.classList.toggle('show');
+            });
+            
+            // Tümünü kabul et
+            acceptAllBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'all');
+                container.classList.remove('show');
+                
+                // Tüm çerezleri etkinleştir
+                enableAllCookies();
+            });
+            
+            // Tercihleri kaydet
+            savePreferencesBtn.addEventListener('click', function() {
+                const preferences = {
+                    analytics: document.getElementById('analyticsCookies').checked,
+                    advertising: document.getElementById('advertisingCookies').checked,
+                    performance: document.getElementById('performanceCookies').checked
+                };
+                
+                localStorage.setItem('cookieConsent', 'custom');
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                container.classList.remove('show');
+                
+                // Seçilen çerezleri etkinleştir
+                if (preferences.analytics) enableAnalyticsCookies();
+                if (preferences.advertising) enableAdvertisingCookies();
+                if (preferences.performance) enablePerformanceCookies();
+            });
+            
+            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
+            if (cookieConsent === 'custom') {
+                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
+                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
+                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
+            }
+        } else {
+            // Daha önce onay verilmişse çerezleri etkinleştir
+            if (cookieConsent === 'all') {
+                enableAllCookies();
+            } else if (cookieConsent === 'custom') {
+                if (cookiePreferences.analytics) enableAnalyticsCookies();
+                if (cookiePreferences.advertising) enableAdvertisingCookies();
+                if (cookiePreferences.performance) enablePerformanceCookies();
+            }
+        }
+        
+        // Zorunlu çerezler her zaman etkin
+        enableEssentialCookies();
+    });
+    
+    function enableEssentialCookies() {
+        // Zorunlu çerezlerin yüklenmesi
+        console.log('Zorunlu çerezler etkinleştirildi');
+    }
+    
+    function enableAnalyticsCookies() {
+        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
+        console.log('Analitik çerezler etkinleştirildi');
+    }
+    
+    function enableAdvertisingCookies() {
+        // Reklam çerezlerinin yüklenmesi
+        console.log('Reklam çerezleri etkinleştirildi');
+    }
+    
+    function enablePerformanceCookies() {
+        // Performans çerezlerinin yüklenmesi
+        console.log('Performans çerezleri etkinleştirildi');
+    }
+    
+    function enableAllCookies() {
+        enableEssentialCookies();
+        enableAnalyticsCookies();
+        enableAdvertisingCookies();
+        enablePerformanceCookies();
+    }
+</script>
+
+<div class="cookie-consent-container" id="cookieConsentContainer">
+    <div class="cookie-consent-content">
+        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
+        <div class="cookie-links">
+            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
+            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
+            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
+            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
+        </div>
+    </div>
+    
+    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
+        <h3>Çerez Tercihleri</h3>
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Zorunlu Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Analitik Çerezler</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="analyticsCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Reklam Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="advertisingCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
+        </div>
+        
+        <div class="cookie-preference">
+            <div class="cookie-preference-header">
+                <span>Performans Çerezleri</span>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="performanceCookies">
+                    <span class="cookie-slider"></span>
+                </label>
+            </div>
+            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
+        </div>
+        
+        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
+    </div>
+</div>
+
+<style>
+    .cookie-consent-container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        max-width: 380px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+        transform: translateX(-150%);
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .cookie-consent-container.show {
+        transform: translateX(0);
+    }
+    
+    .cookie-consent-content p {
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+    }
+    
+    .cookie-links {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .cookie-links a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        font-size: 13px;
+        transition: color 0.3s ease;
+    }
+    
+    .cookie-links a:hover {
+        color: var(--primary-hover);
+    }
+    
+    .cookie-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .cookie-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .accept-btn {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .accept-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+    
+    .preferences-btn {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .preferences-btn:hover {
+        background-color: rgba(0, 113, 227, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .save-btn {
+        background-color: var(--primary-color);
+        color: white;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .save-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    
+    .cookie-preferences-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .cookie-preferences-panel.show {
+        max-height: 500px;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+    }
+    
+    .cookie-preferences-panel h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference {
+        margin-bottom: 15px;
+    }
+    
+    .cookie-preference-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .cookie-preference-header span {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .cookie-preference-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+    
+    .cookie-toggle {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+    
+    .cookie-toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .cookie-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+    }
+    
+    .cookie-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .cookie-slider {
+        background-color: var(--primary-color);
+    }
+    
+    input:checked + .cookie-slider:before {
+        transform: translateX(26px);
+    }
+    
+    input:disabled + .cookie-slider {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+    
+    @media (max-width: 480px) {
+        .cookie-consent-container {
+            left: 10px;
+            right: 10px;
+            max-width: none;
+            bottom: 10px;
+        }
+        
+        .cookie-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+        
+        // Eğer kullanıcı daha önce onay vermediyse göster
+        if (!cookieConsent) {
+            const container = document.getElementById('cookieConsentContainer');
+            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
+            const acceptAllBtn = document.getElementById('cookieAcceptAll');
+            const preferencesBtn = document.getElementById('cookiePreferences');
+            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
+            
+            // Kutuyu göster
+            setTimeout(() => {
+                container.classList.add('show');
+            }, 1000);
+            
+            // Tercih panelini aç/kapat
+            preferencesBtn.addEventListener('click', function() {
+                preferencesPanel.classList.toggle('show');
+            });
+            
+            // Tümünü kabul et
+            acceptAllBtn.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'all');
+                container.classList.remove('show');
+                
+                // Tüm çerezleri etkinleştir
+                enableAllCookies();
+            });
+            
+            // Tercihleri kaydet
+            savePreferencesBtn.addEventListener('click', function() {
+                const preferences = {
+                    analytics: document.getElementById('analyticsCookies').checked,
+                    advertising: document.getElementById('advertisingCookies').checked,
+                    performance: document.getElementById('performanceCookies').checked
+                };
+                
+                localStorage.setItem('cookieConsent', 'custom');
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                container.classList.remove('show');
+                
+                // Seçilen çerezleri etkinleştir
+                if (preferences.analytics) enableAnalyticsCookies();
+                if (preferences.advertising) enableAdvertisingCookies();
+                if (preferences.performance) enablePerformanceCookies();
+            });
+            
+            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
+            if (cookieConsent === 'custom') {
+                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
+                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
+                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
+            }
+        } else {
+            // Daha önce onay verilmişse çerezleri etkinleştir
+            if (cookieConsent === 'all') {
+                enableAllCookies();
+            } else if (cookieConsent === 'custom') {
+                if (cookiePreferences.analytics) enableAnalyticsCookies();
+                if (cookiePreferences.advertising) enableAdvertisingCookies();
+                if (cookiePreferences.performance) enablePerformanceCookies();
+            }
+        }
+        
+        // Zorunlu çerezler her zaman etkin
+        enableEssentialCookies();
+    });
+    
+    function enableEssentialCookies() {
+        // Zorunlu çerezlerin yüklenmesi
+        console.log('Zorunlu çerezler etkinleştirildi');
+    }
+    
+    function enableAnalyticsCookies() {
+        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
+        console.log('Analitik çerezler etkinleştirildi');
+    }
+    
+    function enableAdvertisingCookies() {
+        // Reklam çerezlerinin yüklenmesi
+        console.log('Reklam çerezleri etkinleştirildi');
+    }
+    
+    function enablePerformanceCookies() {
+        // Performans çerezlerinin yüklenmesi
+        console.log('Performans çerezleri etkinleştirildi');
+    }
+    
+    function enableAllCookies() {
+        enableEssentialCookies();
+        enableAnalyticsCookies();
+        enableAdvertisingCookies();
+        enablePerformanceCookies();
+    }
+</script>
+
+</body>
+</html>
