@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4DH1JNEFVP"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4DH1JNEFVP');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ÇözümNet</title>
@@ -52,6 +61,11 @@
             overflow-x: hidden;
             perspective: 1000px;
             padding-top: 52px;
+        }
+        
+        body.block-scroll {
+            overflow: hidden;
+            height: 100vh;
         }
         
         .legal-banner {
@@ -319,7 +333,7 @@
             
             .mobile-menu-toggle.active {
                 transform: rotate(180deg);
-                background-color: rgba(0, 113, 227, 0.1);
+                background-color: rgba(1, 109, 216, 0.1);
             }
             
             .mobile-menu-toggle i {
@@ -1593,63 +1607,613 @@
             border-color: var(--primary-color);
             box-shadow: inset 0 0 20px rgba(0, 113, 227, 0.2);
         }
+
+        /* Cookie Consent Modal Styles */
+        .cookie-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9998;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .cookie-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .cookie-consent-container {
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 9999;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .cookie-consent-container.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .cookie-consent-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .cookie-consent-content p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .cookie-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .cookie-link {
+            color: var(--primary-color);
+            font-size: 13px;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+        }
+        
+        .cookie-link:hover {
+            color: var(--primary-hover);
+        }
+        
+        .cookie-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .cookie-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .cookie-btn-accept {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .cookie-btn-accept:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        .cookie-btn-preferences {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .cookie-btn-preferences:hover {
+            background-color: rgba(0, 113, 227, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .cookie-preferences-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 0;
+        }
+        
+        .cookie-preferences-panel.show {
+            max-height: 500px;
+            margin-top: 20px;
+        }
+        
+        .cookie-preferences-panel h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .cookie-preference-group {
+            background-color: rgba(0,0,0,0.05);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .cookie-preference-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .cookie-preference-item label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 10px;
+        }
+        
+        .cookie-preference-item input {
+            margin: 0;
+        }
+        
+        .cookie-preference-item span {
+            font-size: 14px;
+            color: var(--text-color);
+            display: block;
+            flex: 1;
+        }
+        
+        .cookie-preference-item small {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 4px;
+            margin-left: 26px;
+        }
+        
+        .cookie-btn-save {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .cookie-btn-save:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        /* Legal Pages Overlay */
+        .legal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            display: none;
+        }
+        
+        .legal-overlay.active {
+            display: block;
+        }
+        
+        .legal-back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .legal-back-btn:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.1);
+        }
+        
+        .legal-page-content {
+            position: relative;
+            z-index: 1000;
+            max-width: 800px;
+            margin: 60px auto;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transform: perspective(0) rotateX(0) !important;
+        }
+        
+        /* Hide elements when in legal pages */
+        body.legal-page-active .navbar,
+        body.legal-page-active .footer,
+        body.legal-page-active .theme-toggle {
+            display: none !important;
+        }
+        
+        body.legal-page-active .main-content {
+            padding-top: 0;
+        }
+        
+        @media (max-width: 576px) {
+            .cookie-buttons {
+                flex-direction: column;
+            }
+            
+            .cookie-btn {
+                width: 100%;
+            }
+            
+            .cookie-consent-container {
+                width: 95%;
+                padding: 20px 15px;
+            }
+            
+            .legal-page-content {
+                margin: 60px 15px;
+                padding: 20px;
+            }
+        }
+    body.scroll-locked {
+        overflow: hidden;
+        height: 100vh;
+    }
+    
+    body.legal-page-active.scroll-locked {
+        overflow: auto !important;
+        height: auto !important;
+    }
+
+
+
+    /* Scroll Kontrol Stilleri */
+body.scroll-locked {
+    overflow: hidden;
+    height: 100vh;
+}
+
+body.legal-page-active {
+    overflow: auto !important;
+    height: auto !important;
+}
+/* Footer'daki yasal linkleri sadece cookie onayı yoksa göster */
+.footer-links .footer-link[data-page="legal"],
+.footer-links .footer-link[data-page="kvkk"],
+.footer-links .footer-link[data-page="cerez-politikasi"],
+.footer-links .footer-link[data-page="acik-riza"] {
+    display: none;
+}
+
+body:not(.cookie-accepted) .footer-links .footer-link[data-page="legal"],
+body:not(.cookie-accepted) .footer-links .footer-link[data-page="kvkk"],
+body:not(.cookie-accepted) .footer-links .footer-link[data-page="cerez-politikasi"],
+body:not(.cookie-accepted) .footer-links .footer-link[data-page="acik-riza"] {
+    display: inline-block;
+}
+    </style>
+
+ <style>
+    /* Legal pages active state styles */
+    body.legal-page-active .navbar,
+    body.legal-page-active .footer,
+    body.legal-page-active .theme-toggle,
+    body.legal-page-active .cookie-overlay {
+        display: none !important;
+    }
+    
+    body.legal-page-active .main-content {
+        padding-top: 0;
+    }
+    
+    /* Overlay'i tamamen kaldırıyoruz */
+    .legal-overlay {
+        display: none !important;
+    }
+    
+    .legal-back-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        background-color: var(--primary-color);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .legal-back-btn:hover {
+        background-color: var(--primary-hover);
+        transform: scale(1.1);
+    }
+    
+    /* Legal page content styling */
+    .legal-page-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 60px auto;
+        background-color: var(--card-bg);
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border-color);
+    }
+</style>
+
+    <style>
+  .legal-page {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .legal-page h1 {
+    color: #2c3e50;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+  }
+  .legal-page h2 {
+    color: #3498db;
+    margin-top: 20px;
+  }
+  .legal-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .legal-page table, th, td {
+    border: 1px solid #ddd;
+  }
+  .legal-page th, td {
+    padding: 10px;
+    text-align: left;
+  }
+</style>
+                </head>
+            <body>
+                
+        <div class="legal-banner" id="legalBanner">
+            <span class="legal-banner-text" onclick="loadPage('legal')">Yasal Uyarılara Göz Atın</span>
+            <button class="legal-banner-close" id="legalBannerClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="progress-bar" id="progressBar"></div>
+
+        <nav class="navbar" id="navbar">
+            <div class="nav-container">
+                <div class="nav-logo cube-3d" onclick="loadPage('home')">
+                    <span>ÇözümNet</span>
+                </div>
+                
+                <ul class="nav-links" id="navLinks">
+                    <li style="--i: 0"><a href="#" data-page="home" class="active">Ana Sayfa</a></li>
+                    <li style="--i: 1"><a href="#" data-page="about">Hakkımızda</a></li>
+                    <li style="--i: 2"><a href="#" data-page="publishers">Yayınevleri</a></li>
+                    <li style="--i: 3"><a href="#" data-page="contact">İletişim</a></li>
+                </ul>
+                
+                <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content" id="main-content">
+        </main>
+
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <footer class="footer">
+            <div class="container footer-container">
+                <div class="footer-logo cube-3d" onclick="loadPage('home')">
+                    <span>ÇözümNet</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link" data-page="home">Ana Sayfa</a>
+                    <a href="#" class="footer-link" data-page="about">Hakkımızda</a>
+                    <a href="#" class="footer-link" data-page="publishers">Yayınevleri</a>
+                    <a href="#" class="footer-link" data-page="contact">İletişim</a>
+                    <a href="#" class="footer-link" id="emailLink">E-Posta</a>
+                    <a href="#" class="footer-link" data-page="legal">Yasal Uyarılar</a>
+                </div>
+                
+                <p class="footer-copyright">&copy; <span id="currentYear"></span> ÇözümNet. Tüm hakları saklıdır.</p>
+            </div>
+            <!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yasal Bilgiler | [Site Adı]</title>
+    <style>
+        /* ORTAK STİL */
+        .legal-section {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .legal-section h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .legal-section h2 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        .legal-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .legal-section th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .legal-section th {
+            background-color: #f2f2f2;
+        }
+        .last-update {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        .warning-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        /* TAB İÇİN STİL */
+        .legal-tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .legal-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #f1f1f1;
+            border: 1px solid #ddd;
+            margin-right: 5px;
+        }
+        .legal-tab.active {
+            background: #3498db;
+            color: white;
+        }
+        .legal-content {
+            display: none;
+        }
+        .legal-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <div class="legal-banner" id="legalBanner">
-        <span class="legal-banner-text" onclick="loadPage('legal')">Yasal Uyarılara Göz Atın</span>
-        <button class="legal-banner-close" id="legalBannerClose">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
 
-    <div class="progress-bar" id="progressBar"></div>
-
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo cube-3d" onclick="loadPage('home')">
-                <span>ÇözümNet</span>
-            </div>
-            
-            <ul class="nav-links" id="navLinks">
-                <li style="--i: 0"><a href="#" data-page="home" class="active">Ana Sayfa</a></li>
-                <li style="--i: 1"><a href="#" data-page="about">Hakkımızda</a></li>
-                <li style="--i: 2"><a href="#" data-page="publishers">Yayınevleri</a></li>
-                <li style="--i: 3"><a href="#" data-page="contact">İletişim</a></li>
-            </ul>
-            
-            <div class="mobile-menu-toggle" id="mobileMenuToggle">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-    </nav>
-
-    <main class="main-content" id="main-content">
-    </main>
-
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </button>
-
-    <footer class="footer">
-        <div class="container footer-container">
-            <div class="footer-logo cube-3d" onclick="loadPage('home')">
-                <span>ÇözümNet</span>
-            </div>
-            
-            <div class="footer-links">
-                <a href="#" class="footer-link" data-page="home">Ana Sayfa</a>
-                <a href="#" class="footer-link" data-page="about">Hakkımızda</a>
-                <a href="#" class="footer-link" data-page="publishers">Yayınevleri</a>
-                <a href="#" class="footer-link" data-page="contact">İletişim</a>
-                <a href="#" class="footer-link" id="emailLink">E-Posta</a>
-            </div>
-            
-            <p class="footer-copyright">&copy; <span id="currentYear"></span> ÇözümNet. Tüm hakları saklıdır. / <a href="#" data-page="legal">Yasal Uyarılar</a></p>
-        </div>
-    </footer>
-
+    <!-- JAVASCRIPT (TAB GEÇİŞİ) -->
     <script>
+        function openLegalTab(tabName) {
+            // Tüm içerikleri gizle
+            document.querySelectorAll('.legal-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Tüm tab'ları pasif yap
+            document.querySelectorAll('.legal-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Seçilen tab'ı aktif yap
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+        </footer>
+
+        <!-- Cookie Consent Modal -->
+        <div class="cookie-overlay" id="cookieOverlay">
+            <div class="cookie-consent-container" id="cookieConsentContainer">
+                <h3 class="cookie-consent-title">Çerez Tercihleri</h3>
+                <div class="cookie-consent-content">
+                    <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
+                    <div class="cookie-links">
+                        <a href="#" class="cookie-link" data-page="kvkk">KVKK Aydınlatma Metni</a>
+                        <a href="#" class="cookie-link" data-page="cerez-politikasi">Çerez Politikası</a>
+                        <a href="#" class="cookie-link" data-page="acik-riza">Açık Rıza Metni</a>
+                    </div>
+                    <div class="cookie-buttons">
+                        <button class="cookie-btn cookie-btn-accept" id="cookieAccept">Tümünü Kabul Et</button>
+                        <button class="cookie-btn cookie-btn-preferences" id="cookiePreferences">Tercihleri Özelleştir</button>
+                    </div>
+                </div>
+                
+                <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
+                    <h3>Çerez Tercihleri</h3>
+                    <div class="cookie-preference-group">
+                        <div class="cookie-preference-item">
+                            <label>
+                                <input type="checkbox" checked disabled>
+                                <span>Zorunlu Çerezler</span>
+                                <small>(Her zaman aktif, web sitesi çalışması için gereklidir)</small>
+                            </label>
+                        </div>
+                        <div class="cookie-preference-item">
+                            <label>
+                                <input type="checkbox" id="prefAnalytics" checked>
+                                <span>Analitik Çerezler</span>
+                                <small>(Kullanım istatistikleri için)</small>
+                            </label>
+                        </div>
+                        <div class="cookie-preference-item">
+                            <label>
+                                <input type="checkbox" id="prefAdvertising" checked>
+                                <span>Reklam Çerezleri</span>
+                                <small>(Kişiselleştirilmiş reklamlar için)</small>
+                            </label>
+                        </div>
+                        <div class="cookie-preference-item">
+                            <label>
+                                <input type="checkbox" id="prefPerformance" checked>
+                                <span>Performans Çerezleri</span>
+                                <small>(Site hızını artırmak için)</small>
+                        </label>
+                    </div>
+                </div>
+                <button class="cookie-btn cookie-btn-save" id="cookieSave">Tercihleri Onayla</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Legal Pages Overlay -->
+        <div class="legal-overlay" id="legalOverlay"></div>
+        <button class="legal-back-btn" id="legalBackBtn" style="display: none;">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+
+        <script>
         const publishers = [
             { name: "Hız Yayınları", url: "https://hizvideo.frns.in/" },
             { name: "Karekök Yayınları", url: "https://karekokvideocozum.com/" },
@@ -1721,10 +2285,118 @@
             setCopyrightYear();
             initScrollEffects();
             initLegalBanner();
+            initCookieConsent();
+            initLegalBackButton();
             
             const page = window.location.hash.substring(1) || 'home';
             loadPage(page);
         });
+
+        function initLegalBackButton() {
+            const backBtn = document.getElementById('legalBackBtn');
+            backBtn.addEventListener('click', function() {
+                document.body.classList.remove('legal-page-active');
+                document.getElementById('legalOverlay').classList.remove('active');
+                backBtn.style.display = 'none';
+                loadPage('home');
+            });
+        }
+
+        function initCookieConsent() {
+    const consentGiven = localStorage.getItem('cookieConsent');
+    const overlay = document.getElementById('cookieOverlay');
+    const container = document.getElementById('cookieConsentContainer');
+    const prefsPanel = document.getElementById('cookiePreferencesPanel');
+    
+    // Legal sayfalar hariç scroll engelleme kontrolü
+    const currentPage = window.location.hash.substring(1) || 'home';
+    const legalPages = ['legal', 'kvkk', 'cerez-politikasi', 'acik-riza'];
+    const isLegalPage = legalPages.includes(currentPage);
+    
+    if (!consentGiven && !isLegalPage) {
+        document.body.classList.add('scroll-locked');
+    }
+
+    if (!consentGiven) {
+        setTimeout(() => {
+            overlay.classList.add('active');
+            setTimeout(() => {
+                container.classList.add('show');
+            }, 50);
+        }, 1000);
+    } else {
+        const prefs = JSON.parse(consentGiven);
+        if (prefs.analytics) loadAnalyticsScripts();
+        if (prefs.advertising) loadAdvertisingScripts();
+        if (prefs.performance) loadPerformanceScripts();
+    }
+    
+    const prefsBtn = document.getElementById('cookiePreferences');
+    prefsBtn.addEventListener('click', function() {
+        prefsPanel.classList.toggle('show');
+    });
+    
+    const acceptBtn = document.getElementById('cookieAccept');
+    acceptBtn.addEventListener('click', function() {
+        savePreferences(true, true, true, true);
+        hideCookieModal();
+    });
+    
+    const saveBtn = document.getElementById('cookieSave');
+    saveBtn.addEventListener('click', function() {
+        const analytics = document.getElementById('prefAnalytics').checked;
+        const advertising = document.getElementById('prefAdvertising').checked;
+        const performance = document.getElementById('prefPerformance').checked;
+        
+        savePreferences(true, analytics, advertising, performance);
+        hideCookieModal();
+    });
+    
+    function hideCookieModal() {
+        container.classList.remove('show');
+        setTimeout(() => {
+            overlay.classList.remove('active');
+        }, 300);
+    }
+    
+    function savePreferences(necessary, analytics, advertising, performance) {
+        const preferences = {
+            necessary: necessary,
+            analytics: analytics,
+            advertising: advertising,
+            performance: performance,
+            date: new Date().toISOString()
+        };
+        
+        localStorage.setItem('cookieConsent', JSON.stringify(preferences));
+        document.body.classList.remove('scroll-locked');
+        
+        if (analytics) loadAnalyticsScripts();
+        if (advertising) loadAdvertisingScripts();
+        if (performance) loadPerformanceScripts();
+    }
+    
+    function loadAnalyticsScripts() {
+        console.log('Analytics çerezleri yüklendi');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4DH1JNEFVP');
+        
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4DH1JNEFVP';
+        document.head.appendChild(script);
+    }
+    
+    function loadAdvertisingScripts() {
+        console.log('Reklam çerezleri yüklendi');
+    }
+    
+    function loadPerformanceScripts() {
+        console.log('Performans çerezleri yüklendi');
+    }
+}
 
         function initLegalBanner() {
             const banner = document.getElementById('legalBanner');
@@ -1920,6 +2592,9 @@
                         case 'publishers': loadPublishersPage(); break;
                         case 'contact': loadContactPage(); break;
                         case 'legal': loadLegalPage(); break;
+                        case 'kvkk': loadKvkkPage(); break;
+                        case 'cerez-politikasi': loadCookiePolicyPage(); break;
+                        case 'acik-riza': loadConsentPage(); break;
                         case 'broken-link': loadErrorPage('broken-link'); break;
                         case 'not-found': loadErrorPage('not-found'); break;
                         case 'offline': loadErrorPage('offline'); break;
@@ -2020,48 +2695,249 @@
         }
 
         function loadLegalPage() {
-            const content = document.getElementById('main-content');
-            content.innerHTML = `
-                <section class="legal">
-                    <div class="container">
-                        <div class="legal-container cube-3d">
-                            <h2 class="legal-title">Yasal Uyarılar</h2>
-                            
-                                <h3 class="legal-section-title">Sorumluluk Reddi Beyanı</h3>
-                                    <div class="legal-section-content">
-                                        <p>ÇözümNet, kullanıcıların yayınevlerine ait video çözüm sayfalarına kolayca erişebilmesi için geliştirilmiş bir yönlendirme platformudur. Sitemizdeki butonlar, doğrudan ilgili yayınevlerinin resmi web sitelerine yönlendirme yapmaktadır.</p>
-                                        <p>ÇözümNet, yönlendirdiği sitelerdeki içeriklerin doğruluğu, güncelliği veya erişilebilirliği konusunda herhangi bir sorumluluk taşımaz. Kullanıcılar, yönlendirildikleri sitelerdeki içeriklerden doğrudan ilgili yayınevlerinin veya üçüncü taraf hizmet sağlayıcılarının sorumlu olduğunu kabul ederler.</p>
-                                        <p>Ayrıca, bağlantı verilen sitelerde yapılan değişiklikler veya sağlanan hizmetlerle ilgili herhangi bir garanti verilmemekte olup, kullanıcıların ilgili yayınevlerinin gizlilik politikalarını ve kullanım koşullarını kontrol etmeleri önerilir.</p>
-                                    </div>
-
-                                    <br>
-
-                                    <h3 class="legal-section-title">Kişisel Verilerin Korunması Politikası</h3>
-                                    <div class="legal-section-content">
-                                        <p>ÇözümNet, kullanıcı gizliliğine büyük önem verir ve kişisel verilerin korunmasını öncelikli hale getirir.</p>
-                                        <p><strong>Veri Toplama:</strong> Bu site çerez (cookie) kullanmaz. Kullanıcı tercihleri (örneğin, tema seçimi) yalnızca tarayıcınızın localStorage alanında saklanır ve cihazınız dışında hiçbir yerde depolanmaz.</p>
-                                        <p><strong>Veri Paylaşımı:</strong> ÇözümNet, kullanıcı verilerini çok zorunlu yasal işlemler dışında ASLA üçüncü taraflarla paylaşmaz.</p>
-                                        <p><strong>Güvenlik:</strong> Kullanıcı verilerinin güvenliği için gerekli teknik ve idari önlemler alınmıştır.</p>
-                                    </div>
-
-                                    <br>
-
-                                    <h3 class="legal-section-title">Yasal Uyarı ve İçerik Kullanımı</h3>
-                                    <div class="legal-section-content">
-                                        <p>ÇözümNet'te yer alan tüm içerikler, 5846 sayılı Fikir ve Sanat Eserleri Kanunu (FSEK) ve ilgili diğer mevzuat kapsamında korunmaktadır. İzinsiz kullanım, çoğaltma, dağıtım veya ticari amaçlı kullanım yasal sorumluluk doğurabilir.</p>
-                                        <p>Aşağıdaki eylemler yasaktır ve hukuki yaptırımlara tabi olabilir:</p>
-                                        <ul>
-                                            <li>ÇözümNet'te yer alan içeriklerin izinsiz olarak kopyalanması, paylaşılması veya ticari amaçlarla kullanılması,</li>
-                                            <li>Platformun kaynak kodlarının değiştirilmesi veya izinsiz şekilde dağıtılması,</li>
-                                            <li>Başka bir web sitesi veya platformda ÇözümNet içeriğinin izinsiz kullanımı.</li>
-                                        </ul>
-                                        <p>Daha fazla bilgi için <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=5846&MevzuatTur=1&MevzuatTertip=3" target="_blank">5846 sayılı FSEK</a> yasasına göz atabilirsiniz.</p>
-                                    </div>
-
-                            </div>
+        document.body.classList.add('legal-page-active');
+        document.body.classList.remove('scroll-locked');
+        //document.getElementById('legalOverlay').classList.add('active');
+        document.getElementById('legalBackBtn').style.display = 'flex';
+        
+        const content = document.getElementById('main-content');
+        content.innerHTML = `
+            <div class="legal-page-content">
+                        <h2 class="legal-title">Yasal Uyarılar</h2>
+                    
+                    <div class="legal-section">
+                        <h3 class="legal-section-title">Sorumluluk Reddi Beyanı</h3>
+                        <div class="legal-section-content">
+                            <p>ÇözümNet, kullanıcıların yayınevlerine ait video çözüm sayfalarına kolayca erişebilmesi için geliştirilmiş bir yönlendirme platformudur. Sitemizdeki butonlar, doğrudan ilgili yayınevlerinin resmi web sitelerine yönlendirme yapmaktadır.</p>
+                            <p>ÇözümNet, yönlendirdiği sitelerdeki içeriklerin doğruluğu, güncelliği veya erişilebilirliği konusunda herhangi bir sorumluluk taşımaz. Kullanıcılar, yönlendirildikleri sitelerdeki içeriklerden doğrudan ilgili yayınevlerinin veya üçüncü taraf hizmet sağlayıcılarının sorumlu olduğunu kabul ederler.</p>
+                            <p>Ayrıca, bağlantı verilen sitelerde yapılan değişiklikler veya sağlanan hizmetlerle ilgili herhangi bir garanti verilmemekte olup, kullanıcıların ilgili yayınevlerinin gizlilik politikalarını ve kullanım koşullarını kontrol etmeleri önerilir.</p>
                         </div>
                     </div>
-                </section>
+
+                    <div class="legal-section">
+                        <h3 class="legal-section-title">Kişisel Verilerin Korunması Politikası</h3>
+                        <div class="legal-section-content">
+                            <p>ÇözümNet, kullanıcı gizliliğine büyük önem verir ve kişisel verilerin korunmasını öncelikli hale getirir.</p>
+                            <p><strong>Veri Toplama:</strong> Bu site çerez (cookie) kullanmaz. Kullanıcı tercihleri (örneğin, tema seçimi) yalnızca tarayıcınızın localStorage alanında saklanır ve cihazınız dışında hiçbir yerde depolanmaz.</p>
+                            <p><strong>Veri Paylaşımı:</strong> ÇözümNet, kullanıcı verilerini çok zorunlu yasal işlemler dışında ASLA üçüncü taraflarla paylaşmaz.</p>
+                            <p><strong>Güvenlik:</strong> Kullanıcı verilerinin güvenliği için gerekli teknik ve idari önlemler alınmıştır.</p>
+                        </div>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3 class="legal-section-title">Yasal Uyarı ve İçerik Kullanımı</h3>
+                        <div class="legal-section-content">
+                            <p>ÇözümNet'te yer alan tüm içerikler, 5846 sayılı Fikir ve Sanat Eserleri Kanunu (FSEK) ve ilgili diğer mevzuat kapsamında korunmaktadır. İzinsiz kullanım, çoğaltma, dağıtım veya ticari amaçlı kullanım yasal sorumluluk doğurabilir.</p>
+                            <p>Aşağıdaki eylemler yasaktır ve hukuki yaptırımlara tabi olabilir:</p>
+                            <ul>
+                                <li>ÇözümNet'te yer alan içeriklerin izinsiz olarak kopyalanması, paylaşılması veya ticari amaçlarla kullanılması,</li>
+                                <li>Platformun kaynak kodlarının değiştirilmesi veya izinsiz şekilde dağıtılması,</li>
+                                <li>Başka bir web sitesi veya platformda ÇözümNet içeriğinin izinsiz kullanımı.</li>
+                            </ul>
+                            <p>Daha fazla bilgi için <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=5846&MevzuatTur=1&MevzuatTertip=3" target="_blank">5846 sayılı FSEK</a> yasasına göz atabilirsiniz.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initLegalBackButton() {
+            const backBtn = document.getElementById('legalBackBtn');
+            backBtn.addEventListener('click', function() {
+                document.body.classList.remove('legal-page-active');
+                backBtn.style.display = 'none';
+                loadPage('home');
+            });
+                }
+
+            document.addEventListener('DOMContentLoaded', function() {
+            initLegalBackButton();
+            // Diğer init fonksiyonları...
+
+        });
+
+        function loadKvkkPage() {
+            document.body.classList.add('legal-page-active');
+    document.body.classList.remove('scroll-locked');
+            document.getElementById('legalOverlay').classList.add('active');
+            document.getElementById('legalBackBtn').style.display = 'flex';
+            
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="legal-page-content">
+  <h2 class="legal-title">KVKK Aydınlatma Metni</h2>
+  <div class="legal-section">
+    <h3 class="legal-section-title">Kişisel Verilerin İşlenmesi</h3>
+    <div class="legal-section-content">
+      <p>6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca, kişisel verileriniz veri sorumlusu sıfatıyla ÇözümNet tarafından işlenmektedir.</p>
+      <p><strong>Veri Sorumlusu:</strong> ÇözümNet</p>
+      <p><strong>İletişim:</strong> kayrapps10@gmail.com</p>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Hangi Veriler Toplanıyor?</h3>
+    <div class="legal-section-content">
+      <ul>
+        <li>Tercih ettiğiniz tema (light/dark)</li>
+        <li>Çerez izin tercihleri</li>
+        <li>Ziyaret ettiğiniz sayfalar ve gezinme hareketleriniz</li>
+        <li>IP adresi, cihaz/tarayıcı bilgileri (Google Analytics)</li>
+        <li>Reklam etkileşim verileri (Google AdSense)</li>
+      </ul>
+      <p>Verileriniz localStorage, çerezler ve üçüncü taraf hizmetlerle toplanmaktadır.</p>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Veri İşleme Amaçlarımız</h3>
+    <div class="legal-section-content">
+      <ul>
+        <li>Site işlevlerinin sağlanması</li>
+        <li>Kullanıcı deneyiminin iyileştirilmesi</li>
+        <li>İçerik ve reklam kişiselleştirme</li>
+        <li>İstatistiksel analiz yapılması</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Verilerinizin Korunması</h3>
+    <div class="legal-section-content">
+      <ul>
+        <li>Şifrelenmiş bağlantılar (HTTPS)</li>
+        <li>Sunucuya veri aktarımı sınırlıdır</li>
+        <li>Yetkisiz erişimlere karşı koruma sağlanır</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Haklarınız</h3>
+    <div class="legal-section-content">
+      <ul>
+        <li>İşlenip işlenmediğini öğrenme</li>
+        <li>İşleme amacını öğrenme</li>
+        <li>Yanlış/verimsiz verilerin düzeltilmesini isteme</li>
+        <li>Verilerin silinmesini talep etme</li>
+        <li>Verilerin aktarıldığı kişileri öğrenme</li>
+      </ul>
+      <p>Bu haklarınızı kullanmak için <strong>kayrapps10@gmail.com</strong> adresine e-posta gönderebilirsiniz.</p>
+    </div>
+  </div>
+</div>
+            `;
+        }
+
+        function loadCookiePolicyPage() {
+            document.body.classList.add('legal-page-active');
+          document.body.classList.remove('scroll-locked');
+
+            document.getElementById('legalOverlay').classList.add('active');
+            document.getElementById('legalBackBtn').style.display = 'flex';
+            
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="legal-page-content">
+  <h2 class="legal-title">Çerez Politikası</h2>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Çerez Nedir?</h3>
+    <div class="legal-section-content">
+      <p>Çerezler, web tarayıcınızda geçici olarak depolanan küçük metin dosyalarıdır. Kullanıcı deneyimini geliştirmek, istatistik toplamak ve reklam göstermek amacıyla kullanılmaktadır.</p>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Kullandığımız Çerez Türleri</h3>
+    <div class="legal-section-content">
+      <ul>
+        <li><strong>Zorunlu Çerezler:</strong> Site düzgün çalışması için gereklidir.</li>
+        <li><strong>Tercih Çerezleri:</strong> Tema ve dil tercihi gibi ayarları hatırlar.</li>
+        <li><strong>Analitik Çerezler:</strong> Google Analytics ile site trafiği analiz edilir.</li>
+        <li><strong>Reklam Çerezleri:</strong> Google AdSense üzerinden reklam gösterimi için kullanılır.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Çerezleri Yönetme</h3>
+    <div class="legal-section-content">
+      <p>İlk girişte gösterilen çerez paneli üzerinden veya tarayıcınızın ayarlarından çerez tercihlerinizi değiştirebilirsiniz.</p>
+      <ul>
+        <li><strong>Chrome:</strong> Ayarlar > Gizlilik > Çerezler</li>
+        <li><strong>Firefox:</strong> Ayarlar > Gizlilik ve Güvenlik</li>
+        <li><strong>Safari:</strong> Tercihler > Gizlilik</li>
+      </ul>
+    </div>
+  </div>
+
+            <div class="legal-section">
+                <h3 class="legal-section-title">Üçüncü Taraflar</h3>
+                <div class="legal-section-content">
+                <p>Sitemiz şu üçüncü taraf hizmetlerle çerez paylaşımı yapabilir:</p>
+                <ul>
+                    <li><strong>Google Analytics:</strong> Ziyaretçi verileri</li>
+                    <li><strong>Google AdSense:</strong> Reklam verileri</li>
+                    <li><strong>Google Fonts, Font Awesome:</strong> Tasarımsal öğeler</li>
+                </ul>
+                </div>
+  </div>
+</div>
+            `;
+        }
+
+        function loadConsentPage() {
+            document.body.classList.add('legal-page-active');
+            document.body.classList.remove('scroll-locked');
+            document.getElementById('legalOverlay').classList.add('active');
+            document.getElementById('legalBackBtn').style.display = 'flex';
+            
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="legal-page-content">
+  <h2 class="legal-title">Açık Rıza Metni</h2>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Açık Rıza Beyanı</h3>
+    <div class="legal-section-content">
+      <p>ÇözümNet'i kullanarak, kişisel verilerimin işlenmesine ve çerez kullanımına açık rıza verdiğimi kabul ederim. Bu rıza, yalnızca belirtilen amaçlarla sınırlıdır.</p>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Veri İşleme Amaçları</h3>
+    <div class="legal-section-content">
+      <ul>
+        <li>Site fonksiyonlarının yerine getirilmesi</li>
+        <li>Tercihlerin hatırlanması</li>
+        <li>Analiz ve reklam gösterimi</li>
+        <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Veri Saklama Süresi</h3>
+    <div class="legal-section-content">
+      <ul>
+        <li>Çerez verileri: En fazla 12 ay</li>
+        <li>LocalStorage verileri: Tarayıcı temizlenene kadar</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legal-section">
+    <h3 class="legal-section-title">Rızanın Geri Çekilmesi</h3>
+    <div class="legal-section-content">
+      <p>Açık rızanızı dilediğiniz zaman geri çekebilirsiniz:</p>
+      <ul>
+        <li>Tarayıcı ayarlarından çerezleri silerek</li>
+        <li><strong>kayrapps10@gmail.com</strong> adresine e-posta göndererek</li>
+      </ul>
+    </div>
+  </div>
+</div>
             `;
         }
 
@@ -2176,7 +3052,7 @@
                                 </div>
                             </div>
                             <div class="social-links">
-                                <a href=https://www.instagram.com/kayrapps10/" class="social-link" target="_blank" rel="noopener noreferrer">
+                                <a href="https://www.instagram.com/kayrapps10/" class="social-link" target="_blank" rel="noopener noreferrer">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                                 <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -2274,6 +3150,7 @@
                     card.style.boxShadow = 'var(--shadow)';
                 });
             });
+        
         }
 
         if ('serviceWorker' in navigator) {
@@ -2286,2173 +3163,5 @@
             });
         }
     </script>
-    <div class="cookie-consent-container" id="cookieConsentContainer">
-    <div class="cookie-consent-content">
-        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
-        <div class="cookie-links">
-            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
-            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
-            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
-            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
-        </div>
-    </div>
-    
-    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
-        <h3>Çerez Tercihleri</h3>
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Zorunlu Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" checked disabled>
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Analitik Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="analyticsCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Reklam Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="advertisingCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Performans Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="performanceCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
-    </div>
-</div>
-
-<style>
-    .cookie-consent-container {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        max-width: 380px;
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        z-index: 1000;
-        transform: translateX(-150%);
-        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    
-    .cookie-consent-container.show {
-        transform: translateX(0);
-    }
-    
-    .cookie-consent-content p {
-        margin-bottom: 15px;
-        color: var(--text-secondary);
-    }
-    
-    .cookie-links {
-        margin-bottom: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .cookie-links a {
-        color: var(--primary-color);
-        text-decoration: underline;
-        font-size: 13px;
-        transition: color 0.3s ease;
-    }
-    
-    .cookie-links a:hover {
-        color: var(--primary-hover);
-    }
-    
-    .cookie-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .cookie-btn {
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-    }
-    
-    .accept-btn {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .accept-btn:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
-    
-    .preferences-btn {
-        background-color: transparent;
-        color: var(--primary-color);
-        border: 1px solid var(--primary-color);
-    }
-    
-    .preferences-btn:hover {
-        background-color: rgba(0, 113, 227, 0.1);
-        transform: translateY(-2px);
-    }
-    
-    .save-btn {
-        background-color: var(--primary-color);
-        color: white;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .save-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    
-    .cookie-preferences-panel {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-    }
-    
-    .cookie-preferences-panel.show {
-        max-height: 500px;
-        margin-top: 20px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-    
-    .cookie-preferences-panel h3 {
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference {
-        margin-bottom: 15px;
-    }
-    
-    .cookie-preference-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-    
-    .cookie-preference-header span {
-        font-weight: 500;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference-desc {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-    
-    .cookie-toggle {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-    
-    .cookie-toggle input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .cookie-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-    
-    .cookie-slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    
-    input:checked + .cookie-slider {
-        background-color: var(--primary-color);
-    }
-    
-    input:checked + .cookie-slider:before {
-        transform: translateX(26px);
-    }
-    
-    input:disabled + .cookie-slider {
-        background-color: #95a5a6;
-        cursor: not-allowed;
-    }
-    
-    @media (max-width: 480px) {
-        .cookie-consent-container {
-            left: 10px;
-            right: 10px;
-            max-width: none;
-            bottom: 10px;
-        }
-        
-        .cookie-buttons {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
-        const cookieConsent = localStorage.getItem('cookieConsent');
-        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
-        
-        // Eğer kullanıcı daha önce onay vermediyse göster
-        if (!cookieConsent) {
-            const container = document.getElementById('cookieConsentContainer');
-            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
-            const acceptAllBtn = document.getElementById('cookieAcceptAll');
-            const preferencesBtn = document.getElementById('cookiePreferences');
-            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
-            
-            // Kutuyu göster
-            setTimeout(() => {
-                container.classList.add('show');
-            }, 1000);
-            
-            // Tercih panelini aç/kapat
-            preferencesBtn.addEventListener('click', function() {
-                preferencesPanel.classList.toggle('show');
-            });
-            
-            // Tümünü kabul et
-            acceptAllBtn.addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'all');
-                container.classList.remove('show');
-                
-                // Tüm çerezleri etkinleştir
-                enableAllCookies();
-            });
-            
-            // Tercihleri kaydet
-            savePreferencesBtn.addEventListener('click', function() {
-                const preferences = {
-                    analytics: document.getElementById('analyticsCookies').checked,
-                    advertising: document.getElementById('advertisingCookies').checked,
-                    performance: document.getElementById('performanceCookies').checked
-                };
-                
-                localStorage.setItem('cookieConsent', 'custom');
-                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
-                container.classList.remove('show');
-                
-                // Seçilen çerezleri etkinleştir
-                if (preferences.analytics) enableAnalyticsCookies();
-                if (preferences.advertising) enableAdvertisingCookies();
-                if (preferences.performance) enablePerformanceCookies();
-            });
-            
-            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
-            if (cookieConsent === 'custom') {
-                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
-                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
-                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
-            }
-        } else {
-            // Daha önce onay verilmişse çerezleri etkinleştir
-            if (cookieConsent === 'all') {
-                enableAllCookies();
-            } else if (cookieConsent === 'custom') {
-                if (cookiePreferences.analytics) enableAnalyticsCookies();
-                if (cookiePreferences.advertising) enableAdvertisingCookies();
-                if (cookiePreferences.performance) enablePerformanceCookies();
-            }
-        }
-        
-        // Zorunlu çerezler her zaman etkin
-        enableEssentialCookies();
-    });
-    
-    function enableEssentialCookies() {
-        // Zorunlu çerezlerin yüklenmesi
-        console.log('Zorunlu çerezler etkinleştirildi');
-    }
-    
-    function enableAnalyticsCookies() {
-        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
-        console.log('Analitik çerezler etkinleştirildi');
-    }
-    
-    function enableAdvertisingCookies() {
-        // Reklam çerezlerinin yüklenmesi
-        console.log('Reklam çerezleri etkinleştirildi');
-    }
-    
-    function enablePerformanceCookies() {
-        // Performans çerezlerinin yüklenmesi
-        console.log('Performans çerezleri etkinleştirildi');
-    }
-    
-    function enableAllCookies() {
-        enableEssentialCookies();
-        enableAnalyticsCookies();
-        enableAdvertisingCookies();
-        enablePerformanceCookies();
-    }
-</script>
-<div class="cookie-consent-container" id="cookieConsentContainer">
-    <div class="cookie-consent-content">
-        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
-        <div class="cookie-links">
-            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
-            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
-            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
-            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
-        </div>
-    </div>
-    
-    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
-        <h3>Çerez Tercihleri</h3>
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Zorunlu Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" checked disabled>
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Analitik Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="analyticsCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Reklam Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="advertisingCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Performans Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="performanceCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
-    </div>
-</div>
-
-<style>
-    .cookie-consent-container {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        max-width: 380px;
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        z-index: 1000;
-        transform: translateX(-150%);
-        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    
-    .cookie-consent-container.show {
-        transform: translateX(0);
-    }
-    
-    .cookie-consent-content p {
-        margin-bottom: 15px;
-        color: var(--text-secondary);
-    }
-    
-    .cookie-links {
-        margin-bottom: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .cookie-links a {
-        color: var(--primary-color);
-        text-decoration: underline;
-        font-size: 13px;
-        transition: color 0.3s ease;
-    }
-    
-    .cookie-links a:hover {
-        color: var(--primary-hover);
-    }
-    
-    .cookie-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .cookie-btn {
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-    }
-    
-    .accept-btn {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .accept-btn:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
-    
-    .preferences-btn {
-        background-color: transparent;
-        color: var(--primary-color);
-        border: 1px solid var(--primary-color);
-    }
-    
-    .preferences-btn:hover {
-        background-color: rgba(0, 113, 227, 0.1);
-        transform: translateY(-2px);
-    }
-    
-    .save-btn {
-        background-color: var(--primary-color);
-        color: white;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .save-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    
-    .cookie-preferences-panel {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-    }
-    
-    .cookie-preferences-panel.show {
-        max-height: 500px;
-        margin-top: 20px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-    
-    .cookie-preferences-panel h3 {
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference {
-        margin-bottom: 15px;
-    }
-    
-    .cookie-preference-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-    
-    .cookie-preference-header span {
-        font-weight: 500;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference-desc {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-    
-    .cookie-toggle {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-    
-    .cookie-toggle input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .cookie-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-    
-    .cookie-slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    
-    input:checked + .cookie-slider {
-        background-color: var(--primary-color);
-    }
-    
-    input:checked + .cookie-slider:before {
-        transform: translateX(26px);
-    }
-    
-    input:disabled + .cookie-slider {
-        background-color: #95a5a6;
-        cursor: not-allowed;
-    }
-    
-    @media (max-width: 480px) {
-        .cookie-consent-container {
-            left: 10px;
-            right: 10px;
-            max-width: none;
-            bottom: 10px;
-        }
-        
-        .cookie-buttons {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
-        const cookieConsent = localStorage.getItem('cookieConsent');
-        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
-        
-        // Eğer kullanıcı daha önce onay vermediyse göster
-        if (!cookieConsent) {
-            const container = document.getElementById('cookieConsentContainer');
-            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
-            const acceptAllBtn = document.getElementById('cookieAcceptAll');
-            const preferencesBtn = document.getElementById('cookiePreferences');
-            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
-            
-            // Kutuyu göster
-            setTimeout(() => {
-                container.classList.add('show');
-            }, 1000);
-            
-            // Tercih panelini aç/kapat
-            preferencesBtn.addEventListener('click', function() {
-                preferencesPanel.classList.toggle('show');
-            });
-            
-            // Tümünü kabul et
-            acceptAllBtn.addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'all');
-                container.classList.remove('show');
-                
-                // Tüm çerezleri etkinleştir
-                enableAllCookies();
-            });
-            
-            // Tercihleri kaydet
-            savePreferencesBtn.addEventListener('click', function() {
-                const preferences = {
-                    analytics: document.getElementById('analyticsCookies').checked,
-                    advertising: document.getElementById('advertisingCookies').checked,
-                    performance: document.getElementById('performanceCookies').checked
-                };
-                
-                localStorage.setItem('cookieConsent', 'custom');
-                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
-                container.classList.remove('show');
-                
-                // Seçilen çerezleri etkinleştir
-                if (preferences.analytics) enableAnalyticsCookies();
-                if (preferences.advertising) enableAdvertisingCookies();
-                if (preferences.performance) enablePerformanceCookies();
-            });
-            
-            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
-            if (cookieConsent === 'custom') {
-                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
-                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
-                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
-            }
-        } else {
-            // Daha önce onay verilmişse çerezleri etkinleştir
-            if (cookieConsent === 'all') {
-                enableAllCookies();
-            } else if (cookieConsent === 'custom') {
-                if (cookiePreferences.analytics) enableAnalyticsCookies();
-                if (cookiePreferences.advertising) enableAdvertisingCookies();
-                if (cookiePreferences.performance) enablePerformanceCookies();
-            }
-        }
-        
-        // Zorunlu çerezler her zaman etkin
-        enableEssentialCookies();
-    });
-    
-    function enableEssentialCookies() {
-        // Zorunlu çerezlerin yüklenmesi
-        console.log('Zorunlu çerezler etkinleştirildi');
-    }
-    
-    function enableAnalyticsCookies() {
-        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
-        console.log('Analitik çerezler etkinleştirildi');
-    }
-    
-    function enableAdvertisingCookies() {
-        // Reklam çerezlerinin yüklenmesi
-        console.log('Reklam çerezleri etkinleştirildi');
-    }
-    
-    function enablePerformanceCookies() {
-        // Performans çerezlerinin yüklenmesi
-        console.log('Performans çerezleri etkinleştirildi');
-    }
-    
-    function enableAllCookies() {
-        enableEssentialCookies();
-        enableAnalyticsCookies();
-        enableAdvertisingCookies();
-        enablePerformanceCookies();
-    }
-</script>
-<div class="cookie-consent-container" id="cookieConsentContainer">
-    <div class="cookie-consent-content">
-        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
-        <div class="cookie-links">
-            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
-            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
-            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
-            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
-        </div>
-    </div>
-    
-    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
-        <h3>Çerez Tercihleri</h3>
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Zorunlu Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" checked disabled>
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Analitik Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="analyticsCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Reklam Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="advertisingCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Performans Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="performanceCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
-    </div>
-</div>
-
-<style>
-    .cookie-consent-container {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        max-width: 380px;
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        z-index: 1000;
-        transform: translateX(-150%);
-        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    
-    .cookie-consent-container.show {
-        transform: translateX(0);
-    }
-    
-    .cookie-consent-content p {
-        margin-bottom: 15px;
-        color: var(--text-secondary);
-    }
-    
-    .cookie-links {
-        margin-bottom: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .cookie-links a {
-        color: var(--primary-color);
-        text-decoration: underline;
-        font-size: 13px;
-        transition: color 0.3s ease;
-    }
-    
-    .cookie-links a:hover {
-        color: var(--primary-hover);
-    }
-    
-    .cookie-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .cookie-btn {
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-    }
-    
-    .accept-btn {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .accept-btn:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
-    
-    .preferences-btn {
-        background-color: transparent;
-        color: var(--primary-color);
-        border: 1px solid var(--primary-color);
-    }
-    
-    .preferences-btn:hover {
-        background-color: rgba(0, 113, 227, 0.1);
-        transform: translateY(-2px);
-    }
-    
-    .save-btn {
-        background-color: var(--primary-color);
-        color: white;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .save-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    
-    .cookie-preferences-panel {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-    }
-    
-    .cookie-preferences-panel.show {
-        max-height: 500px;
-        margin-top: 20px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-    
-    .cookie-preferences-panel h3 {
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference {
-        margin-bottom: 15px;
-    }
-    
-    .cookie-preference-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-    
-    .cookie-preference-header span {
-        font-weight: 500;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference-desc {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-    
-    .cookie-toggle {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-    
-    .cookie-toggle input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .cookie-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-    
-    .cookie-slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    
-    input:checked + .cookie-slider {
-        background-color: var(--primary-color);
-    }
-    
-    input:checked + .cookie-slider:before {
-        transform: translateX(26px);
-    }
-    
-    input:disabled + .cookie-slider {
-        background-color: #95a5a6;
-        cursor: not-allowed;
-    }
-    
-    @media (max-width: 480px) {
-        .cookie-consent-container {
-            left: 10px;
-            right: 10px;
-            max-width: none;
-            bottom: 10px;
-        }
-        
-        .cookie-buttons {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
-        const cookieConsent = localStorage.getItem('cookieConsent');
-        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
-        
-        // Eğer kullanıcı daha önce onay vermediyse göster
-        if (!cookieConsent) {
-            const container = document.getElementById('cookieConsentContainer');
-            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
-            const acceptAllBtn = document.getElementById('cookieAcceptAll');
-            const preferencesBtn = document.getElementById('cookiePreferences');
-            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
-            
-            // Kutuyu göster
-            setTimeout(() => {
-                container.classList.add('show');
-            }, 1000);
-            
-            // Tercih panelini aç/kapat
-            preferencesBtn.addEventListener('click', function() {
-                preferencesPanel.classList.toggle('show');
-            });
-            
-            // Tümünü kabul et
-            acceptAllBtn.addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'all');
-                container.classList.remove('show');
-                
-                // Tüm çerezleri etkinleştir
-                enableAllCookies();
-            });
-            
-            // Tercihleri kaydet
-            savePreferencesBtn.addEventListener('click', function() {
-                const preferences = {
-                    analytics: document.getElementById('analyticsCookies').checked,
-                    advertising: document.getElementById('advertisingCookies').checked,
-                    performance: document.getElementById('performanceCookies').checked
-                };
-                
-                localStorage.setItem('cookieConsent', 'custom');
-                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
-                container.classList.remove('show');
-                
-                // Seçilen çerezleri etkinleştir
-                if (preferences.analytics) enableAnalyticsCookies();
-                if (preferences.advertising) enableAdvertisingCookies();
-                if (preferences.performance) enablePerformanceCookies();
-            });
-            
-            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
-            if (cookieConsent === 'custom') {
-                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
-                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
-                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
-            }
-        } else {
-            // Daha önce onay verilmişse çerezleri etkinleştir
-            if (cookieConsent === 'all') {
-                enableAllCookies();
-            } else if (cookieConsent === 'custom') {
-                if (cookiePreferences.analytics) enableAnalyticsCookies();
-                if (cookiePreferences.advertising) enableAdvertisingCookies();
-                if (cookiePreferences.performance) enablePerformanceCookies();
-            }
-        }
-        
-        // Zorunlu çerezler her zaman etkin
-        enableEssentialCookies();
-    });
-    
-    function enableEssentialCookies() {
-        // Zorunlu çerezlerin yüklenmesi
-        console.log('Zorunlu çerezler etkinleştirildi');
-    }
-    
-    function enableAnalyticsCookies() {
-        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
-        console.log('Analitik çerezler etkinleştirildi');
-    }
-    
-    function enableAdvertisingCookies() {
-        // Reklam çerezlerinin yüklenmesi
-        console.log('Reklam çerezleri etkinleştirildi');
-    }
-    
-    function enablePerformanceCookies() {
-        // Performans çerezlerinin yüklenmesi
-        console.log('Performans çerezleri etkinleştirildi');
-    }
-    
-    function enableAllCookies() {
-        enableEssentialCookies();
-        enableAnalyticsCookies();
-        enableAdvertisingCookies();
-        enablePerformanceCookies();
-    }
-</script>
-<div class="cookie-consent-container" id="cookieConsentContainer">
-    <div class="cookie-consent-content">
-        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
-        <div class="cookie-links">
-            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
-            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
-            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
-            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
-        </div>
-    </div>
-    
-    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
-        <h3>Çerez Tercihleri</h3>
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Zorunlu Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" checked disabled>
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Analitik Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="analyticsCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Reklam Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="advertisingCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Performans Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="performanceCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
-    </div>
-</div>
-
-<style>
-    .cookie-consent-container {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        max-width: 380px;
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        z-index: 1000;
-        transform: translateX(-150%);
-        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    
-    .cookie-consent-container.show {
-        transform: translateX(0);
-    }
-    
-    .cookie-consent-content p {
-        margin-bottom: 15px;
-        color: var(--text-secondary);
-    }
-    
-    .cookie-links {
-        margin-bottom: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .cookie-links a {
-        color: var(--primary-color);
-        text-decoration: underline;
-        font-size: 13px;
-        transition: color 0.3s ease;
-    }
-    
-    .cookie-links a:hover {
-        color: var(--primary-hover);
-    }
-    
-    .cookie-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .cookie-btn {
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-    }
-    
-    .accept-btn {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .accept-btn:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
-    
-    .preferences-btn {
-        background-color: transparent;
-        color: var(--primary-color);
-        border: 1px solid var(--primary-color);
-    }
-    
-    .preferences-btn:hover {
-        background-color: rgba(0, 113, 227, 0.1);
-        transform: translateY(-2px);
-    }
-    
-    .save-btn {
-        background-color: var(--primary-color);
-        color: white;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .save-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    
-    .cookie-preferences-panel {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-    }
-    
-    .cookie-preferences-panel.show {
-        max-height: 500px;
-        margin-top: 20px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-    
-    .cookie-preferences-panel h3 {
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference {
-        margin-bottom: 15px;
-    }
-    
-    .cookie-preference-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-    
-    .cookie-preference-header span {
-        font-weight: 500;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference-desc {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-    
-    .cookie-toggle {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-    
-    .cookie-toggle input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .cookie-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-    
-    .cookie-slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    
-    input:checked + .cookie-slider {
-        background-color: var(--primary-color);
-    }
-    
-    input:checked + .cookie-slider:before {
-        transform: translateX(26px);
-    }
-    
-    input:disabled + .cookie-slider {
-        background-color: #95a5a6;
-        cursor: not-allowed;
-    }
-    
-    @media (max-width: 480px) {
-        .cookie-consent-container {
-            left: 10px;
-            right: 10px;
-            max-width: none;
-            bottom: 10px;
-        }
-        
-        .cookie-buttons {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
-        const cookieConsent = localStorage.getItem('cookieConsent');
-        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
-        
-        // Eğer kullanıcı daha önce onay vermediyse göster
-        if (!cookieConsent) {
-            const container = document.getElementById('cookieConsentContainer');
-            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
-            const acceptAllBtn = document.getElementById('cookieAcceptAll');
-            const preferencesBtn = document.getElementById('cookiePreferences');
-            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
-            
-            // Kutuyu göster
-            setTimeout(() => {
-                container.classList.add('show');
-            }, 1000);
-            
-            // Tercih panelini aç/kapat
-            preferencesBtn.addEventListener('click', function() {
-                preferencesPanel.classList.toggle('show');
-            });
-            
-            // Tümünü kabul et
-            acceptAllBtn.addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'all');
-                container.classList.remove('show');
-                
-                // Tüm çerezleri etkinleştir
-                enableAllCookies();
-            });
-            
-            // Tercihleri kaydet
-            savePreferencesBtn.addEventListener('click', function() {
-                const preferences = {
-                    analytics: document.getElementById('analyticsCookies').checked,
-                    advertising: document.getElementById('advertisingCookies').checked,
-                    performance: document.getElementById('performanceCookies').checked
-                };
-                
-                localStorage.setItem('cookieConsent', 'custom');
-                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
-                container.classList.remove('show');
-                
-                // Seçilen çerezleri etkinleştir
-                if (preferences.analytics) enableAnalyticsCookies();
-                if (preferences.advertising) enableAdvertisingCookies();
-                if (preferences.performance) enablePerformanceCookies();
-            });
-            
-            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
-            if (cookieConsent === 'custom') {
-                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
-                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
-                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
-            }
-        } else {
-            // Daha önce onay verilmişse çerezleri etkinleştir
-            if (cookieConsent === 'all') {
-                enableAllCookies();
-            } else if (cookieConsent === 'custom') {
-                if (cookiePreferences.analytics) enableAnalyticsCookies();
-                if (cookiePreferences.advertising) enableAdvertisingCookies();
-                if (cookiePreferences.performance) enablePerformanceCookies();
-            }
-        }
-        
-        // Zorunlu çerezler her zaman etkin
-        enableEssentialCookies();
-    });
-    
-    function enableEssentialCookies() {
-        // Zorunlu çerezlerin yüklenmesi
-        console.log('Zorunlu çerezler etkinleştirildi');
-    }
-    
-    function enableAnalyticsCookies() {
-        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
-        console.log('Analitik çerezler etkinleştirildi');
-    }
-    
-    function enableAdvertisingCookies() {
-        // Reklam çerezlerinin yüklenmesi
-        console.log('Reklam çerezleri etkinleştirildi');
-    }
-    
-    function enablePerformanceCookies() {
-        // Performans çerezlerinin yüklenmesi
-        console.log('Performans çerezleri etkinleştirildi');
-    }
-    
-    function enableAllCookies() {
-        enableEssentialCookies();
-        enableAnalyticsCookies();
-        enableAdvertisingCookies();
-        enablePerformanceCookies();
-    }
-</script>
-<div class="cookie-consent-container" id="cookieConsentContainer">
-    <div class="cookie-consent-content">
-        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
-        <div class="cookie-links">
-            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
-            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
-            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
-            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
-        </div>
-    </div>
-    
-    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
-        <h3>Çerez Tercihleri</h3>
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Zorunlu Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" checked disabled>
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Analitik Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="analyticsCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Reklam Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="advertisingCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Performans Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="performanceCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
-    </div>
-</div>
-
-<style>
-    .cookie-consent-container {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        max-width: 380px;
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        z-index: 1000;
-        transform: translateX(-150%);
-        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    
-    .cookie-consent-container.show {
-        transform: translateX(0);
-    }
-    
-    .cookie-consent-content p {
-        margin-bottom: 15px;
-        color: var(--text-secondary);
-    }
-    
-    .cookie-links {
-        margin-bottom: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .cookie-links a {
-        color: var(--primary-color);
-        text-decoration: underline;
-        font-size: 13px;
-        transition: color 0.3s ease;
-    }
-    
-    .cookie-links a:hover {
-        color: var(--primary-hover);
-    }
-    
-    .cookie-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .cookie-btn {
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-    }
-    
-    .accept-btn {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .accept-btn:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
-    
-    .preferences-btn {
-        background-color: transparent;
-        color: var(--primary-color);
-        border: 1px solid var(--primary-color);
-    }
-    
-    .preferences-btn:hover {
-        background-color: rgba(0, 113, 227, 0.1);
-        transform: translateY(-2px);
-    }
-    
-    .save-btn {
-        background-color: var(--primary-color);
-        color: white;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .save-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    
-    .cookie-preferences-panel {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-    }
-    
-    .cookie-preferences-panel.show {
-        max-height: 500px;
-        margin-top: 20px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-    
-    .cookie-preferences-panel h3 {
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference {
-        margin-bottom: 15px;
-    }
-    
-    .cookie-preference-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-    
-    .cookie-preference-header span {
-        font-weight: 500;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference-desc {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-    
-    .cookie-toggle {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-    
-    .cookie-toggle input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .cookie-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-    
-    .cookie-slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    
-    input:checked + .cookie-slider {
-        background-color: var(--primary-color);
-    }
-    
-    input:checked + .cookie-slider:before {
-        transform: translateX(26px);
-    }
-    
-    input:disabled + .cookie-slider {
-        background-color: #95a5a6;
-        cursor: not-allowed;
-    }
-    
-    @media (max-width: 480px) {
-        .cookie-consent-container {
-            left: 10px;
-            right: 10px;
-            max-width: none;
-            bottom: 10px;
-        }
-        
-        .cookie-buttons {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
-        const cookieConsent = localStorage.getItem('cookieConsent');
-        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
-        
-        // Eğer kullanıcı daha önce onay vermediyse göster
-        if (!cookieConsent) {
-            const container = document.getElementById('cookieConsentContainer');
-            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
-            const acceptAllBtn = document.getElementById('cookieAcceptAll');
-            const preferencesBtn = document.getElementById('cookiePreferences');
-            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
-            
-            // Kutuyu göster
-            setTimeout(() => {
-                container.classList.add('show');
-            }, 1000);
-            
-            // Tercih panelini aç/kapat
-            preferencesBtn.addEventListener('click', function() {
-                preferencesPanel.classList.toggle('show');
-            });
-            
-            // Tümünü kabul et
-            acceptAllBtn.addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'all');
-                container.classList.remove('show');
-                
-                // Tüm çerezleri etkinleştir
-                enableAllCookies();
-            });
-            
-            // Tercihleri kaydet
-            savePreferencesBtn.addEventListener('click', function() {
-                const preferences = {
-                    analytics: document.getElementById('analyticsCookies').checked,
-                    advertising: document.getElementById('advertisingCookies').checked,
-                    performance: document.getElementById('performanceCookies').checked
-                };
-                
-                localStorage.setItem('cookieConsent', 'custom');
-                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
-                container.classList.remove('show');
-                
-                // Seçilen çerezleri etkinleştir
-                if (preferences.analytics) enableAnalyticsCookies();
-                if (preferences.advertising) enableAdvertisingCookies();
-                if (preferences.performance) enablePerformanceCookies();
-            });
-            
-            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
-            if (cookieConsent === 'custom') {
-                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
-                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
-                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
-            }
-        } else {
-            // Daha önce onay verilmişse çerezleri etkinleştir
-            if (cookieConsent === 'all') {
-                enableAllCookies();
-            } else if (cookieConsent === 'custom') {
-                if (cookiePreferences.analytics) enableAnalyticsCookies();
-                if (cookiePreferences.advertising) enableAdvertisingCookies();
-                if (cookiePreferences.performance) enablePerformanceCookies();
-            }
-        }
-        
-        // Zorunlu çerezler her zaman etkin
-        enableEssentialCookies();
-    });
-    
-    function enableEssentialCookies() {
-        // Zorunlu çerezlerin yüklenmesi
-        console.log('Zorunlu çerezler etkinleştirildi');
-    }
-    
-    function enableAnalyticsCookies() {
-        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
-        console.log('Analitik çerezler etkinleştirildi');
-    }
-    
-    function enableAdvertisingCookies() {
-        // Reklam çerezlerinin yüklenmesi
-        console.log('Reklam çerezleri etkinleştirildi');
-    }
-    
-    function enablePerformanceCookies() {
-        // Performans çerezlerinin yüklenmesi
-        console.log('Performans çerezleri etkinleştirildi');
-    }
-    
-    function enableAllCookies() {
-        enableEssentialCookies();
-        enableAnalyticsCookies();
-        enableAdvertisingCookies();
-        enablePerformanceCookies();
-    }
-</script>
-
-<div class="cookie-consent-container" id="cookieConsentContainer">
-    <div class="cookie-consent-content">
-        <p>Web sitemiz, deneyiminizi iyileştirmek için çerezleri kullanır. Zorunlu çerezler dışında kalanları tercihinize göre yönetebilirsiniz.</p>
-        <div class="cookie-links">
-            <a href="/kvkk" target="_blank">KVKK Aydınlatma Metni</a>
-            <a href="/cerez-politikasi" target="_blank">Çerez Politikası</a>
-            <a href="/acik-riza" target="_blank">Açık Rıza Metni</a>
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-btn accept-btn" id="cookieAcceptAll">Kabul Et</button>
-            <button class="cookie-btn preferences-btn" id="cookiePreferences">Tercihlere Göz At</button>
-        </div>
-    </div>
-    
-    <div class="cookie-preferences-panel" id="cookiePreferencesPanel">
-        <h3>Çerez Tercihleri</h3>
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Zorunlu Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" checked disabled>
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin temel işlevlerinin çalışması için gereklidir. Kapatılamaz.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Analitik Çerezler</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="analyticsCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Kullanıcı deneyimini analiz etmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Reklam Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="advertisingCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Size ilgi alanlarınıza göre reklamlar göstermek için kullanılır.</p>
-        </div>
-        
-        <div class="cookie-preference">
-            <div class="cookie-preference-header">
-                <span>Performans Çerezleri</span>
-                <label class="cookie-toggle">
-                    <input type="checkbox" id="performanceCookies">
-                    <span class="cookie-slider"></span>
-                </label>
-            </div>
-            <p class="cookie-preference-desc">Web sitesinin performansını ölçmek ve iyileştirmek için kullanılır.</p>
-        </div>
-        
-        <button class="cookie-btn save-btn" id="cookieSavePreferences">Tercihleri Kaydet</button>
-    </div>
-</div>
-
-<style>
-    .cookie-consent-container {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        max-width: 380px;
-        background-color: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        z-index: 1000;
-        transform: translateX(-150%);
-        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    
-    .cookie-consent-container.show {
-        transform: translateX(0);
-    }
-    
-    .cookie-consent-content p {
-        margin-bottom: 15px;
-        color: var(--text-secondary);
-    }
-    
-    .cookie-links {
-        margin-bottom: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .cookie-links a {
-        color: var(--primary-color);
-        text-decoration: underline;
-        font-size: 13px;
-        transition: color 0.3s ease;
-    }
-    
-    .cookie-links a:hover {
-        color: var(--primary-hover);
-    }
-    
-    .cookie-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .cookie-btn {
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-    }
-    
-    .accept-btn {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .accept-btn:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-2px);
-    }
-    
-    .preferences-btn {
-        background-color: transparent;
-        color: var(--primary-color);
-        border: 1px solid var(--primary-color);
-    }
-    
-    .preferences-btn:hover {
-        background-color: rgba(0, 113, 227, 0.1);
-        transform: translateY(-2px);
-    }
-    
-    .save-btn {
-        background-color: var(--primary-color);
-        color: white;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .save-btn:hover {
-        background-color: var(--primary-hover);
-    }
-    
-    .cookie-preferences-panel {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-    }
-    
-    .cookie-preferences-panel.show {
-        max-height: 500px;
-        margin-top: 20px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-    
-    .cookie-preferences-panel h3 {
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference {
-        margin-bottom: 15px;
-    }
-    
-    .cookie-preference-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-    
-    .cookie-preference-header span {
-        font-weight: 500;
-        color: var(--text-color);
-    }
-    
-    .cookie-preference-desc {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-    
-    .cookie-toggle {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-    
-    .cookie-toggle input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .cookie-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-    
-    .cookie-slider:before {
-        position: absolute;
-        content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    
-    input:checked + .cookie-slider {
-        background-color: var(--primary-color);
-    }
-    
-    input:checked + .cookie-slider:before {
-        transform: translateX(26px);
-    }
-    
-    input:disabled + .cookie-slider {
-        background-color: #95a5a6;
-        cursor: not-allowed;
-    }
-    
-    @media (max-width: 480px) {
-        .cookie-consent-container {
-            left: 10px;
-            right: 10px;
-            max-width: none;
-            bottom: 10px;
-        }
-        
-        .cookie-buttons {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Kullanıcı daha önce tercihini belirlemiş mi kontrol et
-        const cookieConsent = localStorage.getItem('cookieConsent');
-        const cookiePreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
-        
-        // Eğer kullanıcı daha önce onay vermediyse göster
-        if (!cookieConsent) {
-            const container = document.getElementById('cookieConsentContainer');
-            const preferencesPanel = document.getElementById('cookiePreferencesPanel');
-            const acceptAllBtn = document.getElementById('cookieAcceptAll');
-            const preferencesBtn = document.getElementById('cookiePreferences');
-            const savePreferencesBtn = document.getElementById('cookieSavePreferences');
-            
-            // Kutuyu göster
-            setTimeout(() => {
-                container.classList.add('show');
-            }, 1000);
-            
-            // Tercih panelini aç/kapat
-            preferencesBtn.addEventListener('click', function() {
-                preferencesPanel.classList.toggle('show');
-            });
-            
-            // Tümünü kabul et
-            acceptAllBtn.addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'all');
-                container.classList.remove('show');
-                
-                // Tüm çerezleri etkinleştir
-                enableAllCookies();
-            });
-            
-            // Tercihleri kaydet
-            savePreferencesBtn.addEventListener('click', function() {
-                const preferences = {
-                    analytics: document.getElementById('analyticsCookies').checked,
-                    advertising: document.getElementById('advertisingCookies').checked,
-                    performance: document.getElementById('performanceCookies').checked
-                };
-                
-                localStorage.setItem('cookieConsent', 'custom');
-                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
-                container.classList.remove('show');
-                
-                // Seçilen çerezleri etkinleştir
-                if (preferences.analytics) enableAnalyticsCookies();
-                if (preferences.advertising) enableAdvertisingCookies();
-                if (preferences.performance) enablePerformanceCookies();
-            });
-            
-            // Eğer daha önce özel tercihler kaydedilmişse checkbox'ları ayarla
-            if (cookieConsent === 'custom') {
-                document.getElementById('analyticsCookies').checked = cookiePreferences.analytics || false;
-                document.getElementById('advertisingCookies').checked = cookiePreferences.advertising || false;
-                document.getElementById('performanceCookies').checked = cookiePreferences.performance || false;
-            }
-        } else {
-            // Daha önce onay verilmişse çerezleri etkinleştir
-            if (cookieConsent === 'all') {
-                enableAllCookies();
-            } else if (cookieConsent === 'custom') {
-                if (cookiePreferences.analytics) enableAnalyticsCookies();
-                if (cookiePreferences.advertising) enableAdvertisingCookies();
-                if (cookiePreferences.performance) enablePerformanceCookies();
-            }
-        }
-        
-        // Zorunlu çerezler her zaman etkin
-        enableEssentialCookies();
-    });
-    
-    function enableEssentialCookies() {
-        // Zorunlu çerezlerin yüklenmesi
-        console.log('Zorunlu çerezler etkinleştirildi');
-    }
-    
-    function enableAnalyticsCookies() {
-        // Analitik çerezlerin yüklenmesi (örneğin Google Analytics)
-        console.log('Analitik çerezler etkinleştirildi');
-    }
-    
-    function enableAdvertisingCookies() {
-        // Reklam çerezlerinin yüklenmesi
-        console.log('Reklam çerezleri etkinleştirildi');
-    }
-    
-    function enablePerformanceCookies() {
-        // Performans çerezlerinin yüklenmesi
-        console.log('Performans çerezleri etkinleştirildi');
-    }
-    
-    function enableAllCookies() {
-        enableEssentialCookies();
-        enableAnalyticsCookies();
-        enableAdvertisingCookies();
-        enablePerformanceCookies();
-    }
-</script>
-
 </body>
 </html>
